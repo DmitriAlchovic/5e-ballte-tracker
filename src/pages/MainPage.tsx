@@ -4,6 +4,7 @@ import Input from "../components/Input/Input";
 import InputCard from "../components/TabCard/InputCard/InputCard";
 import SearchBar from "../components/SearchBar";
 import Service from "../services/api";
+import {Character} from "../interfaces"
 
 const MainPage: React.FC = () => {
   const [numberOf, setNumberOf] = useState({ players: 0, enemies: 0 });
@@ -12,6 +13,7 @@ const MainPage: React.FC = () => {
     { name: "hans", initiative: "3", health: "12" },
   ]);
   const [char, setChar] = useState({ name: "", initiative: "", health: "" });
+  const [moster, setMoster] = useState("");
   const [counter, setCounter] = useState(0);
 
   console.log(Service.getMonster("zombie"));
@@ -21,29 +23,35 @@ const MainPage: React.FC = () => {
       ...numberOf,
       [event.target.name]: parseInt(event.target.value),
     });
-    console.log(numberOf);
+      
   };
 
   const changeHandlerChar = (event: React.ChangeEvent<HTMLInputElement>) => {
     setChar((char) => {
       return { ...char, [event.target.name]: event.target.value };
     });
-    console.log(char, event.target.name, event.target.value);
   };
 
-  const pressHandler = () => {};
   const pressNextHandler = () => {
-    const newArray = [...charArray, char];
+    const delElem = counter < charArray.length ? 1 : 0;
+    const newArray = charArray;
+    newArray.splice(counter, delElem, char);
     setCharArray(newArray);
+    console.log(newArray);
+
     setChar({ name: "", initiative: "", health: "" });
     setCounter((counter) => counter + 1);
-    console.log(charArray);
   };
+
+  const pressPereviousHandler = () =>{
+    setCounter(counter=> counter-1)
+    setChar(charArray[counter]) 
+  }
 
   const buttonsDisplay = () => {
     return (
       <React.Fragment>
-        {counter ? <Button>Previous</Button> : null}
+        {counter ? <Button onClick={pressPereviousHandler}>Previous</Button> : null}
         {counter + 1 === numberOf.players + numberOf.enemies ? (
           <Button>Done!</Button>
         ) : (
@@ -53,6 +61,15 @@ const MainPage: React.FC = () => {
     );
   };
 
+  const getMonsterInfo = async (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    const monster:any = await Service.getMonster(event.target.value);
+    console.log(monster);
+    
+    console.log(monster.xp);
+    setChar({ ...char, name: monster.name, health: monster.hitPoints});
+  };
   const cardDisplay = () => {
     if (numberOf.players && counter < numberOf.players) {
       return (
@@ -87,6 +104,15 @@ const MainPage: React.FC = () => {
       return (
         <React.Fragment>
           <InputCard enemy={true} id="0">
+            <SearchBar changeHandler={getMonsterInfo} />
+            <Input
+              inputName="initiative"
+              value={char.initiative}
+              inputType="number"
+              changeHandler={changeHandlerChar}
+              id="Char"
+            />
+            <p>{char.name}</p>
             {buttonsDisplay()}
           </InputCard>
         </React.Fragment>
@@ -109,7 +135,7 @@ const MainPage: React.FC = () => {
         changeHandler={changeHandlerNumber}
         id=""
       />
-      <SearchBar></SearchBar>
+
       {cardDisplay()}
     </React.Fragment>
   );

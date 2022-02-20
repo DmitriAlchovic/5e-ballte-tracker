@@ -13,7 +13,6 @@ const SelectTab: React.FC<CardsNumber> = ({ children, numberOf }) => {
   const enemy = true;
 
   useEffect(() => {
-    console.log(enemies);
 
     const tabsArr = [];
     for (let i = 1; i <= players; i++) {

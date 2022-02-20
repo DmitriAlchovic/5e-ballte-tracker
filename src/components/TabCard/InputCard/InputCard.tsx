@@ -7,10 +7,9 @@ interface InputCardProps {
 }
 
 const InputCard: React.FC<InputCardProps> = ({ children, enemy, id }) => {
-  console.log(enemy, "Flag", children, id, "ID");
 
   return (
-    <div className="card">
+    <div className="inputCard">
       <Card border="primary">
         <Card.Header><h2>Roll initiative!</h2></Card.Header>
         <Card.Body>
