@@ -1,49 +1,60 @@
-import React, { ReactElement, useEffect, useState, ReactNode } from "react";
-import { Tabs, Tab } from "react-bootstrap";
-import InputCard from "./InputCard/InputCard";
-import { CreateFightProps } from "../../interfaces";
+import React, {
+  ReactElement,
+  useEffect,
+  useState,
+  useContext,
+} from "react";
+import { Tabs, Tab, Button} from "react-bootstrap";
 import "./SelectTab.css";
+import BattleContext from "../../context/battle-context";
+import { Character } from "../../interfaces";
+import BattleCard from "./BattleCard";
 
-interface CardsNumber {
-  numberOf: { players: number; enemies: number };
-}
-const SelectTab: React.FC<CardsNumber> = ({ children, numberOf }) => {
-  const { players, enemies } = numberOf;
+const SelectTab: React.FC = () => {
+  const charArray = useContext<Character[]>(BattleContext);
   const [array, setArray] = useState<ReactElement[]>([]);
-  const enemy = true;
+  const [currentChar,setCurrentChar] = useState<number>(0);
+  const [tabFocus,setTabFocus] = useState<number>(0);
 
   useEffect(() => {
+    const enemy = charArray.map(({ name }: Character, index) => {
+      return (
+        <Tab eventKey={index} title={name} key={index} >
+          <BattleCard charIndex={index}></BattleCard>
+        </Tab>
+      );
+    });
 
-    const tabsArr = [];
-    for (let i = 1; i <= players; i++) {
-      tabsArr.push(
-        <Tab eventKey={i} title={`Player ${i}`} key={i}>
-          {React.Children.map<ReactNode, ReactNode>(children, (child) => {
-            if (React.isValidElement(child)) {
-              return React.cloneElement(child, { id: `Player${i}` });
-            } else return null;
-          })}
-        </Tab>
-      );
+    setArray(enemy);
+  }, []);
+  
+  const changeFocus = (key:string|null) => {
+    if(key){setTabFocus(parseInt(key));}
+  }
+
+  const pressSomeHandler =(event:React.MouseEvent<HTMLButtonElement>)=>{
+    
+     if (currentChar === charArray.length-1){
+       setCurrentChar(0)
     }
-    for (let i = players + 1; i <= players + enemies; i++) {
-      tabsArr.push(
-        <Tab eventKey={i} title={`Enemie ${i - players}`} key={i}>
-          {React.Children.map<ReactNode, ReactNode>(children, (child) => {
-            if (React.isValidElement(child)) {
-              return React.cloneElement(child, { enemy, id:`Enemy${i}` });
-            } else return null;
-          })}
-        </Tab>
-      );
-    }
-    setArray(tabsArr);
-    console.log(array, "array");
-  }, [players, enemies]);
+    else setCurrentChar(currentChar=>currentChar+1);
+    
+      setTabFocus(currentChar);
+  }
 
   return (
     <div className="Tabs">
-      <Tabs className="mb-3">{array}</Tabs>
+      <Tabs
+        onSelect={changeFocus}
+        activeKey={tabFocus}
+        variant="pills"
+        defaultActiveKey={charArray[0].name ? charArray[0].name : ""}
+        id="noanim-tab-example"
+        className="mb-3"
+      >
+        {array}
+      </Tabs>
+      <Button onClick={pressSomeHandler}>Done!</Button>
     </div>
   );
 };

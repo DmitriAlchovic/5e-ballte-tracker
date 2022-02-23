@@ -1,19 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState} from "react";
 import { Button } from "react-bootstrap";
 import Input from "../components/Input/Input";
 import InputCard from "../components/TabCard/InputCard/InputCard";
 import SearchBar from "../components/SearchBar";
 import Service from "../services/api";
 import {Character} from "../interfaces"
+interface MainPageProps {
+  submitCharacters:Function;
+  children?:React.ReactNode;
+}
 
-const MainPage: React.FC = () => {
+const MainPage: React.FC<any> = ({submitCharacters}) => {
   const [numberOf, setNumberOf] = useState({ players: 0, enemies: 0 });
-  const [charArray, setCharArray] = useState([
-    { name: "otto", initiative: "2", health: "5" },
-    { name: "hans", initiative: "3", health: "12" },
-  ]);
-  const [char, setChar] = useState({ name: "", initiative: "", health: "" });
-  const [moster, setMoster] = useState("");
+  const [charArray, setCharArray] = useState<Character[]>([]);
+  const [char, setChar] = useState<Character>({ name: "", initiative: 0, hitPoints:0  });
   const [counter, setCounter] = useState(0);
 
   console.log(Service.getMonster("zombie"));
@@ -23,7 +23,9 @@ const MainPage: React.FC = () => {
       ...numberOf,
       [event.target.name]: parseInt(event.target.value),
     });
-      
+     setCharArray([]);
+     setChar({ name: "", initiative: 0, hitPoints:0  });
+     setCounter(0);
   };
 
   const changeHandlerChar = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,20 +34,26 @@ const MainPage: React.FC = () => {
     });
   };
 
-  const pressNextHandler = () => {
+  const pressNextHandler = (event:React.MouseEvent<HTMLButtonElement>) => {
     const delElem = counter < charArray.length ? 1 : 0;
     const newArray = charArray;
     newArray.splice(counter, delElem, char);
     setCharArray(newArray);
-    console.log(newArray);
-
-    setChar({ name: "", initiative: "", health: "" });
+    setChar({ name: "", initiative: 0, hitPoints:0 });
     setCounter((counter) => counter + 1);
   };
 
   const pressPereviousHandler = () =>{
     setCounter(counter=> counter-1)
-    setChar(charArray[counter]) 
+    setChar(charArray[counter]?charArray[counter]:{ name: "", initiative: 0, hitPoints:0  }) 
+    
+  }
+
+  const pressDoneHandler = (event:React.MouseEvent<HTMLButtonElement>) => {
+    const newArr = charArray;
+    newArr.push(char);
+    setCharArray(newArr)
+    submitCharacters(charArray);
   }
 
   const buttonsDisplay = () => {
@@ -53,7 +61,7 @@ const MainPage: React.FC = () => {
       <React.Fragment>
         {counter ? <Button onClick={pressPereviousHandler}>Previous</Button> : null}
         {counter + 1 === numberOf.players + numberOf.enemies ? (
-          <Button>Done!</Button>
+          <Button  onClick={pressDoneHandler} >Done!</Button>
         ) : (
           <Button onClick={pressNextHandler}>Next</Button>
         )}
@@ -64,12 +72,15 @@ const MainPage: React.FC = () => {
   const getMonsterInfo = async (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
-    const monster:any = await Service.getMonster(event.target.value);
-    console.log(monster);
     
-    console.log(monster.xp);
-    setChar({ ...char, name: monster.name, health: monster.hitPoints});
+    const monster:Character = await Service.getMonster(event.target.value);
+    if (monster){
+      console.log(monster,"monster");
+      
+    await setChar(monster);
+    }
   };
+
   const cardDisplay = () => {
     if (numberOf.players && counter < numberOf.players) {
       return (
@@ -90,8 +101,8 @@ const MainPage: React.FC = () => {
               id="Char"
             />
             <Input
-              inputName="health"
-              value={char.health}
+              inputName="hitPoints"
+              value={char.hitPoints}
               inputType="number"
               changeHandler={changeHandlerChar}
               id="Char"
@@ -104,7 +115,7 @@ const MainPage: React.FC = () => {
       return (
         <React.Fragment>
           <InputCard enemy={true} id="0">
-            <SearchBar changeHandler={getMonsterInfo} />
+            <SearchBar changeHandler={(e)=>{getMonsterInfo(e)}} value={char.name}/>
             <Input
               inputName="initiative"
               value={char.initiative}

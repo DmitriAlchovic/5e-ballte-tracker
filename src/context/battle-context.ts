@@ -1,8 +1,9 @@
 import {createContext} from "react";
+import {Character} from "../interfaces";
 
 
-const BattleContext = createContext({
-    charArray:[{name:null,initiative:null, health:null}]
-})
+const noop = ()=>{}
+
+const BattleContext = createContext<Character[]>([]);
 
 export  default BattleContext;
