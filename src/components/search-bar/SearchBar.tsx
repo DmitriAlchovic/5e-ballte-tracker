@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { parseJsonText } from "typescript";
-import Service from "../services/api";
+import Service from "../../services/api";
 import { Form } from "react-bootstrap";
 import "./SearchBar.css";
-interface Moster {
-  index: string;
-  name: string;
-}
+import {Monster} from "../../interfaces";
+import { SearchProps } from "../../interfaces";
 
-interface SearchProps {
-  changeHandler: React.ChangeEventHandler<HTMLSelectElement>;
-  value: string;
-}
 const SearchBar: React.FC<SearchProps> = ({ changeHandler, value }) => {
   const [list, setList] = useState<string>();
   const [lists, setLists] = useState();
@@ -20,7 +13,7 @@ const SearchBar: React.FC<SearchProps> = ({ changeHandler, value }) => {
     const monstersList = async () => {
       const Arr = await Service.getMonstersList();
       setList(JSON.stringify(Arr));
-      monsters = Arr.map((monster: Moster) => {
+      monsters = Arr.map((monster: Monster) => {
         return (
           <option key={monster.index} value={monster.index}>
             {monster.name}

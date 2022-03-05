@@ -1,14 +1,11 @@
 import React, { useContext, useEffect, useState} from "react";
 import { Button } from "react-bootstrap";
-import Input from "../components/Input/Input";
-import InputCard from "../components/TabCard/InputCard/InputCard";
-import SearchBar from "../components/SearchBar";
-import Service from "../services/api";
-import {Character} from "../interfaces"
-interface MainPageProps {
-  submitCharacters:Function;
-  children?:React.ReactNode;
-}
+import Input from "../../components/input/Input";
+import InputCard from "../../components/cards/input-card/InputCard";
+import SearchBar from "../../components/search-bar/SearchBar";
+import Service from "../../services/api";
+import {Character} from "../../interfaces"
+
 
 const MainPage: React.FC<any> = ({submitCharacters}) => {
   const [numberOf, setNumberOf] = useState({ players: 0, enemies: 0 });

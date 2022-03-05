@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
-import SelectTab from "../components/TabCard/SelectTab";
-import BattleContext from "../context/battle-context";
+import SelectTab from "../../components/tabs/SelectTab";
+import BattleContext from "../../context/BattleContext";
 
 const FightPage = () => {
   const Arr = useContext(BattleContext);

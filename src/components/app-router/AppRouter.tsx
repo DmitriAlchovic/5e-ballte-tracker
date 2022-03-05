@@ -1,10 +1,10 @@
 import React,{useState,ReactNode} from "react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import MainPage from "../pages/MainPage";
-import FightPage from "../pages/FightPage";
-import NavBar from "./NavBar";
-import BattleContext from "../context/battle-context";
-import {Character} from "../interfaces"
+import MainPage from "../../pages/main-page/MainPage";
+import FightPage from "../../pages/fight-page/FightPage";
+import NavBar from "../nav/NavBar";
+import BattleContext from "../../context/BattleContext";
+import {Character} from "../../interfaces"
 
 
 
@@ -26,12 +26,14 @@ const initiativeSort = (chars:Character[]) =>{
   }
   return(sortArr)
 }
+
 const submitCharacters = (charsArr:Character[],children?: ReactNode)=> {
   console.log(charsArr);
   const sortArr = initiativeSort(charsArr);
   setCharArray(sortArr);
   navigate("/fight/")
 }
+
   return (
     <div>
       <NavBar />

@@ -1,10 +1,7 @@
 import React, { useState, ReactNode } from "react";
 import { Card, Form } from "react-bootstrap";
 import "./InputCard.css";
-interface InputCardProps {
-  enemy: boolean;
-  id: string;
-}
+import { InputCardProps } from "../../../interfaces";
 
 const InputCard: React.FC<InputCardProps> = ({ children, enemy, id }) => {
 

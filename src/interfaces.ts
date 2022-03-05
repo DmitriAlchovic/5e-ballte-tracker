@@ -40,6 +40,11 @@ export interface ApiCharacter {
   xp:number;
 }
 
+export interface Monster {
+  index: string;
+  name: string;
+}
+
 export interface ApiAction {
   damage: ApiDamage[];
   attack_bonus?: number;
@@ -202,4 +207,20 @@ export interface Speed {
   fly?: string;
   swim?: string;
   walk?: string;
+}
+
+export interface SearchProps {
+  changeHandler: React.ChangeEventHandler<HTMLSelectElement>;
+  value: string;
+}
+
+export interface InputCardProps {
+  enemy: boolean;
+  id: string;
+}
+
+export interface BattleCardProps {
+  charIndex: number;
+  hitPointsArr: number[];
+  hitpointsChange: Function;
 }
