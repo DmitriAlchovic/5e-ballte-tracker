@@ -27,12 +27,7 @@ class Service {
     const res = await this.getResource(`/monsters/`);
     return res.results;
   }
-  /* async getMonstersList() {
-    const res= await axios.get(`${this._apiBase}/monsters/`) 
-   console.log(res.data.results.results);
-    
-    return await (res);
-} */
+  
   async getMonster(index: string) {
     const monster = await this.getResource(`/monsters/${index}`);
     return this._transfomCharInfo(monster);

@@ -22,7 +22,6 @@ const SelectTab: React.FC = () => {
       return hitPoints;
     });
     setHitPointArr(newArr);
-    console.log(charArray,newArr,hitPointsArr,"WTF");
     
   }, []);
 
