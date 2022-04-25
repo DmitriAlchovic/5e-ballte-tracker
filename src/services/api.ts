@@ -38,37 +38,39 @@ class Service {
     return this._transfomCharInfo(monster);
   }
 
-  findSpecialAbilities (abilitiesArray:ApiSpecialAbility[]|undefined):SpecialAbility[]|undefined
-  {
+  findSpecialAbilities(
+    abilitiesArray: ApiSpecialAbility[] | undefined
+  ): SpecialAbility[] | undefined {
     let specialAbilities = undefined;
-     if (abilitiesArray) {
-       specialAbilities =
-        abilitiesArray.map(
-          (SpecialAbility: ApiSpecialAbility): SpecialAbility => {
-            const { spellcasting, ...newSpecialAbility } = SpecialAbility;
-            if (spellcasting) {
-              const {
-                components_required: componentsRequired,
-                ...spellcastingChanged
-              } = spellcasting;
-              const newSpellcasting = {
-                ...spellcastingChanged,
-                componentsRequired,
-              };
-              return { ...SpecialAbility, spellcasting: newSpellcasting };
-            } else return { ...newSpecialAbility };
-          }
-        );
+    if (abilitiesArray) {
+      specialAbilities = abilitiesArray.map(
+        (SpecialAbility: ApiSpecialAbility): SpecialAbility => {
+          const { spellcasting, ...newSpecialAbility } = SpecialAbility;
+          if (spellcasting) {
+            const {
+              components_required: componentsRequired,
+              ...spellcastingChanged
+            } = spellcasting;
+            const newSpellcasting = {
+              ...spellcastingChanged,
+              componentsRequired,
+            };
+            return { ...SpecialAbility, spellcasting: newSpellcasting };
+          } else return { ...newSpecialAbility };
+        }
+      );
+    } else {
+      specialAbilities = undefined;
     }
-    else {specialAbilities=undefined}
-    
-    return(specialAbilities)
+
+    return specialAbilities;
   }
 
-  _transfomCharInfo(char: ApiCharacter): Character {
-    const actions = char.actions.map((ApiAction: ApiAction): Action => {
+  findActions(actions: ApiAction[]): Action[] {
+    const action = actions.map((ApiAction: ApiAction):any => {
+      if(ApiAction.damage){
       const damageArr = ApiAction.damage.map(
-        ({ damage_type: damageType, damage_dice: damageDice }): Damage => {
+        ({ damage_type: damageType, damage_dice: damageDice }): Damage|undefined => {
           return { damageType, damageDice };
         }
       );
@@ -77,8 +79,16 @@ class Service {
 
         return { ...newAction, attackBonus, damage: damageArr };
       } else return { ...ApiAction, damage: damageArr };
+    }
+    else return {...ApiAction}
     });
-     const specialAbilities = this.findSpecialAbilities(char.special_abilities); 
+    return action;
+  }
+
+  _transfomCharInfo(char: ApiCharacter): Character {
+    const actions = this.findActions(char.actions);
+
+    const specialAbilities = this.findSpecialAbilities(char.special_abilities);
 
     const { senses: sensesChange } = char;
     const { passive_perception: passivePerception, ...newSenses } =

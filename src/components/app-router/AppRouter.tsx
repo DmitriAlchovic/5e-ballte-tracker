@@ -13,7 +13,7 @@ const AppRouter = () => {
 const navigate = useNavigate();
 const [charArray, setCharArray] = useState<Character[]>([]);
 
-const initiativeSort = (chars:Character[]) =>{
+const initiativeSort = (chars:Character[]):Character[] =>{
   const sortArr = chars;
   for (let n=0; n<sortArr.length; n++){
     for(let i =0; i<sortArr.length-1-n;i++){

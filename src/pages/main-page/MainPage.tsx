@@ -13,8 +13,6 @@ const MainPage: React.FC<any> = ({submitCharacters}) => {
   const [char, setChar] = useState<Character>({ name: "", initiative: 0, hitPoints:0  });
   const [counter, setCounter] = useState(0);
 
-  console.log(Service.getMonster("zombie"));
-
   const changeHandlerNumber = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNumberOf({
       ...numberOf,

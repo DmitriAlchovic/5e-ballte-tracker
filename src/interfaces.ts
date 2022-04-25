@@ -46,7 +46,7 @@ export interface Monster {
 }
 
 export interface ApiAction {
-  damage: ApiDamage[];
+  damage?: ApiDamage[];
   attack_bonus?: number;
 }
 
@@ -111,7 +111,7 @@ export interface Character {
 
 export interface Action {
   attackBonus?: number;
-  damage: Damage[];
+  damage?: Damage[];
   desc?: string;
   name?: string;
   options?: Action[];
