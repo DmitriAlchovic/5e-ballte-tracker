@@ -1,0 +1,9 @@
+.battleCard{
+    overflow: scroll;
+    height: 65vh;
+}
+
+.hit-points-input {
+    max-width: 15%;
+    text-align: right;
+}

@@ -3,9 +3,7 @@ import {
   Character,
   ApiAction,
   ApiSpecialAbility,
-  ApiSpellcasting,
   Action,
-  Ability,
   SpecialAbility,
   Damage,
 } from "../interfaces";
@@ -17,7 +15,7 @@ class Service {
     const res: Response = await fetch(`${this._apiBase}${url}`);
 
     if (!res.ok) {
-      throw new Error("Could not fetch" + `${res.status}`);
+      throw new Error(`Could not fetch ${res.status}`);
     }
 
     return await res.json();
@@ -117,6 +115,7 @@ class Service {
       legendaryActions,
       specialAbilities,
       senses: senses,
+      characterType:'npc'
     };
   }
 }

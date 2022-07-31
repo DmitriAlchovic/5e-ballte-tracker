@@ -1,0 +1,11 @@
+input[type=number]{
+    -moz-appearance: textfield;
+}
+.charInput{
+    margin: 10px;
+    width: 80%;
+}
+
+.characterInputContainer {
+    width: 100%;
+}

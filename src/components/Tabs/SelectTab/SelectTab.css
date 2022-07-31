@@ -1,0 +1,23 @@
+.infoContainer{
+    width: 70%;
+}
+
+.selectContainer{
+    padding: 0;
+    height: 400px;
+    background-color: gray;
+    overflow: scroll;
+}
+
+.selectTabContainer{
+    display: flex;
+    justify-content: center;
+}
+
+.itemContainer{
+    display: flex;
+}
+
+.partyNameInput {
+    margin: 10px;
+}

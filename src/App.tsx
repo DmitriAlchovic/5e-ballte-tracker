@@ -1,15 +1,16 @@
-import React from "react";
-import "./App.css";
-//import 'bootstrap/dist/css/bootstrap.min.css';
-import AppRouter from "./components/app-router/AppRouter";
+import React from 'react';
+import { ErrorBoundary } from 'react-error-boundary';
+import './App.css';
+import AppRouter from './components/AppRouter/AppRouter';
+import ErrorToast from './components/ErrorToast';
 
 function App() {
-
   return (
-<div className="App">
-  <AppRouter/>
-</div>
-  
+    <div className="App">
+      <ErrorBoundary FallbackComponent={ErrorToast}>
+        <AppRouter />
+      </ErrorBoundary>
+    </div>
   );
 }
 

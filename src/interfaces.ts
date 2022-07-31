@@ -87,7 +87,7 @@ export interface Character {
   damageImmunities?: string[];
   damageResistances?: string[];
   damageVulnerabilities?: string[];
-  dexterity?: number;
+  dexterity: number;
   hitDice?: string;
   hitPoints: number;
   index?: string;
@@ -107,6 +107,7 @@ export interface Character {
   url?: string;
   wisdom?: number;
   xp?: number;
+  characterType:"npc";
 }
 
 export interface Action {
@@ -210,8 +211,9 @@ export interface Speed {
 }
 
 export interface SearchProps {
-  changeHandler: React.ChangeEventHandler<HTMLSelectElement>;
+  changeHandler: Function;
   value: string;
+  lists:any;
 }
 
 export interface InputCardProps {
@@ -220,7 +222,72 @@ export interface InputCardProps {
 }
 
 export interface BattleCardProps {
-  charIndex: number;
-  hitPointsArr: number[];
+  npc: Character;
   hitpointsChange: Function;
 }
+
+export interface PlayerCharacter {
+  characterName:string;
+  playerName:string;
+  armorClass:number;
+  maxHitpoints:number;
+  currentHitpoints:number;
+  speed:number;
+  strength: number;
+  dexterity: number;
+  constitution: number;
+  intelligence: number;
+  wisdom: number;
+  charisma: number;
+  passivePreception:number;
+  darkvision:boolean;
+  languages:string;
+  discription:string; 
+  initiative?:any;
+  characterType:'playerCharacter'
+}
+
+export interface Party {
+  partyName:string;
+  partyMembers:PlayerCharacter[];
+}
+
+export interface SelectTabProps {
+  activeParties:Party[];
+  addParty:Function;
+  submitCharacters:Function;
+}
+
+export interface CharacterInputCardProps {
+  addPartyMember:Function;
+}
+
+export interface CharacterInfoCardProps {
+  partyMembers:PlayerCharacter[];
+}
+
+export interface NpcInfoCardProps {
+  selectedCharacter:Character;
+}
+
+export interface NpcListCardProps {
+  npcArray:Character[];
+}
+
+export interface FightPageProps {
+  partyArray:PlayerCharacter[];
+  npcArray:Character[];
+  initiativeList:InitiativeList|undefined;
+}
+
+export interface InitiativeList{
+    [key: string]:  number;
+  }
+
+  export interface BattleTabProps {
+    fightArray:Character[]|PlayerCharacter[];
+  }
+
+  export interface BattleCharacterCardProps {
+    playerCharacter:PlayerCharacter;
+  }

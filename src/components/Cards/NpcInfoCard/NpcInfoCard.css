@@ -1,0 +1,5 @@
+.npcInfoContainer{
+    max-height: 70vh;
+    overflow: scroll;
+    width: 500px;
+}
