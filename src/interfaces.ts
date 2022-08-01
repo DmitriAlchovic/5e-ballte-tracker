@@ -245,6 +245,7 @@ export interface PlayerCharacter {
   discription:string; 
   initiative?:any;
   characterType:'playerCharacter'
+  id?:string;
 }
 
 export interface Party {
@@ -256,10 +257,12 @@ export interface SelectTabProps {
   activeParties:Party[];
   addParty:Function;
   submitCharacters:Function;
+  editParty:Function;
 }
 
 export interface CharacterInputCardProps {
-  addPartyMember:Function;
+  addOrEditPartyMember:Function;
+  characterToEdit?:PlayerCharacter;
 }
 
 export interface CharacterInfoCardProps {

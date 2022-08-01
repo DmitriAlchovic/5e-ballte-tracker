@@ -15,6 +15,7 @@ const MainPage: React.FC<any> = ({ submitCharacters }) => {
       setActiveParties(partyList.item);
     }
   }, [partyList]);
+
   const addParty = (newParty: Party) => {
     if (activeParties?.length) {
       const partyExists = activeParties.filter(
@@ -30,6 +31,21 @@ const MainPage: React.FC<any> = ({ submitCharacters }) => {
       partyList.createStorage([newParty]);
     }
   };
+  const editParty = (editedParty:Party) =>{
+    if(activeParties){
+    const idx = activeParties.findIndex((party:Party) => party.partyName === editedParty.partyName);
+      const newPartyList = [
+        ...activeParties.slice(0, idx),
+        editedParty,
+        ...activeParties.slice(idx + 1)
+      ];
+      
+      partyList.createStorage(newPartyList)
+      console.log(newPartyList,activeParties,partyList.item);
+    }
+  }
+
+
   return (
     <div className="tabContainer">
       <h2>Select party</h2>
@@ -40,6 +56,7 @@ const MainPage: React.FC<any> = ({ submitCharacters }) => {
         activeParties={activeParties ? activeParties : []}
         addParty={addParty}
         submitCharacters={submitCharacters}
+        editParty={editParty}
       />
     </div>
   );

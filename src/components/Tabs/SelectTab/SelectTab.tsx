@@ -4,21 +4,41 @@ import './SelectTab.css';
 import CharacterInputCard from '../../Cards/CharacterInputCard';
 import { SelectTabProps, Party, PlayerCharacter } from '../../../interfaces';
 import CharacterInfoCard from '../../Cards/CharacterInfoCard/CharacterInfoCard';
+import { nanoid } from 'nanoid';
 
 const _DUMMY_PARTY: Party = { partyName: '', partyMembers: [] };
 const SelectTab: React.FC<SelectTabProps> = ({
   activeParties,
   addParty,
   submitCharacters,
+  editParty
 }) => {
   const [currentParty, setCurrentParty] = useState<Party>(
     activeParties.length ? activeParties[0] : _DUMMY_PARTY
   );
+  const [partyMemberToEdit, setPartyMemberToEdit] = useState<PlayerCharacter>();
+  const [addPartyMode, setAddPartyMode] = useState<boolean>(false); 
 
   const addPartyMember = (candidate: PlayerCharacter) => {
-    const newParty = [...currentParty.partyMembers, candidate];
+    const candidateWithId = {...candidate,id:nanoid()};
+    const newParty = [...currentParty.partyMembers, candidateWithId];
     setCurrentParty({ ...currentParty, partyMembers: newParty });
   };
+
+  const editPartyMember = (candidate: PlayerCharacter) => {
+    const idx = currentParty.partyMembers.findIndex((member:PlayerCharacter) => member.id === candidate.id);
+      const newParty = [
+        ...currentParty.partyMembers.slice(0, idx),
+        candidate,
+        ...currentParty.partyMembers.slice(idx + 1)
+      ];
+      const {partyName} = currentParty;
+      setCurrentParty({partyName,partyMembers:newParty});
+      setPartyMemberToEdit(undefined);
+      editParty({partyName,partyMembers:newParty})
+      
+  };
+
   const handlerChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCurrentParty({ partyName: event.target.value, partyMembers: [] });
   };
@@ -27,6 +47,7 @@ const SelectTab: React.FC<SelectTabProps> = ({
       <ListGroup.Item
         onClick={() => {
           setCurrentParty(activeParties[idx]);
+          setPartyMemberToEdit(undefined);
         }}
         action
         href={`#${partyName}`}
@@ -37,17 +58,30 @@ const SelectTab: React.FC<SelectTabProps> = ({
   ));
 
   const tabContent = activeParties.map(({ partyName, partyMembers }) => {
-    const members = partyMembers.map(({ characterName }) => (
-      <ListGroup.Item key={characterName}>{characterName}</ListGroup.Item>
+    const members = partyMembers.map(({ characterName }, idx) => (
+      <ListGroup.Item
+        onClick={() => {
+          setPartyMemberToEdit(currentParty.partyMembers[idx]);
+        }}
+        action
+        key={characterName}
+      >
+        {characterName}
+      </ListGroup.Item>
     ));
     return (
-      <div key={partyName}>
-      <Tab.Pane  eventKey={`#${partyName}`}>
-        <ListGroup>
-          {members}
-        </ListGroup>
-      </Tab.Pane>
-       <Button
+      <div
+        className={
+          currentParty.partyName === partyName
+            ? 'partyMembersContainer'
+            : 'partyMembersDisplay'
+        }
+        key={partyName}
+      >
+        <Tab.Pane eventKey={`#${partyName}`}>
+          <ListGroup>{members}</ListGroup>
+        </Tab.Pane>
+        <Button
           onClick={() => {
             submitCharacters(currentParty);
           }}
@@ -68,6 +102,8 @@ const SelectTab: React.FC<SelectTabProps> = ({
               <ListGroup.Item
                 onClick={() => {
                   setCurrentParty(_DUMMY_PARTY);
+                  setPartyMemberToEdit(undefined);
+                  setAddPartyMode(true);
                 }}
                 action
                 href="#add"
@@ -80,7 +116,7 @@ const SelectTab: React.FC<SelectTabProps> = ({
             <Tab.Content>
               {tabContent}
               <Tab.Pane eventKey="#add">
-                <Form.Group controlId="characterName">
+                {addPartyMode&&<Form.Group controlId="characterName">
                   <Form.Label>Party name</Form.Label>
                   <Form.Control
                     className="partyNameInput"
@@ -94,25 +130,33 @@ const SelectTab: React.FC<SelectTabProps> = ({
                   <Form.Control.Feedback type="invalid">
                     Please enter character name.
                   </Form.Control.Feedback>
-                </Form.Group>
-                {currentParty.partyName ? (
-                  <CharacterInputCard addPartyMember={addPartyMember} />
-                ) : null}
-                {currentParty.partyName ? (
+                </Form.Group>}
+                {addPartyMode && (
+                  <CharacterInputCard addOrEditPartyMember={addPartyMember} />
+                )}
+                {addPartyMode && (
                   <Button
                     onClick={() => {
                       addParty(currentParty);
+                      setAddPartyMode(false);
                     }}
                   >
                     Add party
                   </Button>
-                ) : null}
+                )}
               </Tab.Pane>
             </Tab.Content>
           </Col>
           <Col>
-            Characters info
-            <CharacterInfoCard partyMembers={currentParty.partyMembers} />
+            {!partyMemberToEdit && (
+              <CharacterInfoCard partyMembers={currentParty.partyMembers} />
+            )}
+            {partyMemberToEdit && (
+              <CharacterInputCard
+                addOrEditPartyMember={editPartyMember}
+                characterToEdit={partyMemberToEdit}
+              />
+            )}
           </Col>
         </Row>
       </Tab.Container>

@@ -1,18 +1,17 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect } from 'react';
 
-export const useStorage = (storageName:string) => {
+export const useStorage = (storageName: string) => {
   const [item, setItem] = useState<any>();
 
-
-  const createStorage = useCallback((storageItem:any) => {
+  const createStorage = useCallback((storageItem: any) => {
     setItem(storageItem);
     localStorage.setItem(
       storageName,
       JSON.stringify({
-        storageItem
+        storageItem,
       })
     );
-  },[]);
+  }, []);
 
   const deleteStorage = useCallback(() => {
     setItem([]);
@@ -23,11 +22,10 @@ export const useStorage = (storageName:string) => {
     const item = localStorage.getItem(storageName);
     if (item) {
       const data = JSON.parse(item);
-     const {storageItem} = data; 
-     createStorage(storageItem); 
+      const { storageItem } = data;
+      createStorage(storageItem);
     }
   }, []);
-
 
   return { item, createStorage, deleteStorage };
 };

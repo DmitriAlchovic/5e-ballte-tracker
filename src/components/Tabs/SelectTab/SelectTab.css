@@ -4,7 +4,7 @@
 
 .selectContainer{
     padding: 0;
-    height: 400px;
+    height: 70vh;
     background-color: gray;
     overflow: scroll;
 }
@@ -20,4 +20,13 @@
 
 .partyNameInput {
     margin: 10px;
+}
+
+.partyMembersContainer{
+    background-color: #808080;
+    height: 70vh;
+}
+
+.partyMembersDisplay{
+    display: none;
 }
