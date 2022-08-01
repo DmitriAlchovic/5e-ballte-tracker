@@ -9,6 +9,7 @@ import {
 } from "../interfaces";
 
 class Service {
+  //_apiBase = "";
   _apiBase = "https://www.dnd5eapi.co/api";
 
   async getResource(url: string) {
