@@ -39,9 +39,17 @@ const MainPage: React.FC<any> = ({ submitCharacters }) => {
         editedParty,
         ...activeParties.slice(idx + 1)
       ];
-      
       partyList.createStorage(newPartyList)
-      console.log(newPartyList,activeParties,partyList.item);
+    }
+  }
+
+  const deleteParty = (idx:number) =>{
+    if(activeParties){
+      const newPartyList = [
+        ...activeParties.slice(0, idx),
+        ...activeParties.slice(idx + 1)
+      ];
+      partyList.createStorage(newPartyList)
     }
   }
 
@@ -55,6 +63,7 @@ const MainPage: React.FC<any> = ({ submitCharacters }) => {
       <SelectTab
         activeParties={activeParties ? activeParties : []}
         addParty={addParty}
+        deleteParty={deleteParty}
         submitCharacters={submitCharacters}
         editParty={editParty}
       />

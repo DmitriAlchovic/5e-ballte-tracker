@@ -8,7 +8,7 @@ const _DUMMY_CHARACTER: PlayerCharacter = {
   playerName: '',
   armorClass: 0,
   maxHitpoints: 0,
-  currentHitpoints: 0,
+  hitPoints: 0,
   speed: 0,
   strength: 0,
   dexterity: 0,
@@ -21,6 +21,7 @@ const _DUMMY_CHARACTER: PlayerCharacter = {
   languages: '',
   discription: '',
   characterType: 'playerCharacter',
+  id:''
 };
 
 const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
@@ -30,13 +31,14 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
   const [characterCandidate, setCharacterCandidate] = useState<PlayerCharacter>(
     characterToEdit ? characterToEdit : _DUMMY_CHARACTER
   );
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState<boolean|undefined>(false);
 
   useEffect(() => {
     if (characterToEdit) {
       setCharacterCandidate(characterToEdit);
     }
   }, [characterToEdit]);
+
   const handleSubmit = (event: any) => {
     const form = event.currentTarget;
 
@@ -44,11 +46,13 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
       event.preventDefault();
       event.stopPropagation();
     }
-
+      console.log(event.currentTarget);
+      
     setValidated(true);
     if (characterCandidate.playerName && characterCandidate.characterName) {
       setCharacterCandidate(_DUMMY_CHARACTER);
       addOrEditPartyMember(characterCandidate);
+      setValidated(undefined);
     }
     event.preventDefault();
     event.stopPropagation();
@@ -77,9 +81,9 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
   return (
     <div>
       <div className="characterInputContainer">
-        <Card>
+        <Card className='characterInputCard'>
           <Card.Header>
-            <h3>{characterToEdit ? 'Edit party member' : 'Add partyMember'}</h3>
+            <h3>{characterToEdit ? 'Edit party member' : 'Add party member'}</h3>
           </Card.Header>
           <Form noValidate validated={validated} onSubmit={handleSubmit}>
             <Form.Group controlId="characterName">
@@ -92,8 +96,8 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                 value={characterCandidate.characterName}
                 onChange={handlerChange}
               />
-              <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-              <Form.Control.Feedback type="invalid">
+              <Form.Control.Feedback  >Looks good!</Form.Control.Feedback>
+              <Form.Control.Feedback  type="invalid">
                 Please enter character name.
               </Form.Control.Feedback>
             </Form.Group>
@@ -112,7 +116,8 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                 Please enter player name.
               </Form.Control.Feedback>
             </Form.Group>
-            <Form.Group controlId="armorClass">
+            <Row className='mb-2'>
+            <Form.Group as={Col} controlId="armorClass">
               <Form.Label>Armor Class</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control
@@ -128,7 +133,7 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                 </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
-            <Form.Group controlId="speed">
+            <Form.Group as={Col} controlId="speed">
               <Form.Label>Speed</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control
@@ -144,10 +149,12 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                 </Form.Control.Feedback>
               </InputGroup>
             </Form.Group>
-            <Row className="mb-6">
-              <Form.Group as={Col} md="2" controlId="validationCustom01">
+            </Row>
+            <Row className="mb-3">
+              <Form.Group as={Col} md="4" controlId="validationCustom01">
                 <Form.Label>STR</Form.Label>
                 <Form.Control
+                  className='characteristicInput'
                   type="number"
                   required
                   name="strength"
@@ -155,9 +162,10 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                   onChange={handlerChange}
                 />
               </Form.Group>
-              <Form.Group as={Col} md="2" controlId="validationCustom02">
+              <Form.Group as={Col} md="4" controlId="validationCustom02">
                 <Form.Label>DEX</Form.Label>
                 <Form.Control
+                  className='characteristicInput'
                   type="number"
                   required
                   name="dexterity"
@@ -165,9 +173,10 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                   onChange={handlerChange}
                 />
               </Form.Group>
-              <Form.Group as={Col} md="2" controlId="validationCustom03">
+              <Form.Group as={Col} md="4" controlId="validationCustom03">
                 <Form.Label>CON</Form.Label>
                 <Form.Control
+                  className='characteristicInput'
                   type="number"
                   required
                   name="constitution"
@@ -175,9 +184,10 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                   onChange={handlerChange}
                 />
               </Form.Group>
-              <Form.Group as={Col} md="2" controlId="validationCustom04">
+              <Form.Group as={Col} md="4" controlId="validationCustom04">
                 <Form.Label>INT</Form.Label>
                 <Form.Control
+                  className='characteristicInput'
                   type="number"
                   required
                   name="intelegence"
@@ -185,9 +195,10 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                   onChange={handlerChange}
                 />
               </Form.Group>
-              <Form.Group as={Col} md="2" controlId="validationCustom05">
+              <Form.Group as={Col} md="4" controlId="validationCustom05">
                 <Form.Label>WIS</Form.Label>
                 <Form.Control
+                  className='characteristicInput'
                   type="number"
                   required
                   name="wisdom"
@@ -195,9 +206,10 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                   onChange={handlerChange}
                 />
               </Form.Group>
-              <Form.Group as={Col} md="2" controlId="validationCustom06">
+              <Form.Group as={Col} md="4" controlId="validationCustom06">
                 <Form.Label>CHA</Form.Label>
                 <Form.Control
+                  className='characteristicInput'
                   type="number"
                   required
                   name="charisma"
@@ -232,7 +244,7 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                 />
               </Form.Group>
             </Row>
-            <Form.Group as={Col} md="4" controlId="discription">
+            <Form.Group  controlId="discription">
               <Form.Label>Discription</Form.Label>
               <InputGroup hasValidation>
                 <Form.Control
@@ -245,7 +257,7 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                 />
               </InputGroup>
             </Form.Group>
-            <Button type="submit">{characterToEdit ? 'Edit' : 'Add'}</Button>
+            <Button className='addEditBtn' type="submit">{characterToEdit ? characterToEdit.id? 'Edit':'Add' : 'Add'}</Button>
           </Form>
         </Card>
       </div>

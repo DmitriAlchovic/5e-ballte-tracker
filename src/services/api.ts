@@ -115,7 +115,8 @@ class Service {
       legendaryActions,
       specialAbilities,
       senses: senses,
-      characterType:'npc'
+      characterType:'npc',
+      id:''
     };
   }
 }

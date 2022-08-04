@@ -9,7 +9,7 @@
     display: flex;
     flex-direction: column;
     position: relative;
-    width: 700px;
+    width: 60vw;
     height: 80vh;
     background: #5b6977;
     margin: 0 auto 0;
@@ -19,16 +19,16 @@
   
   .blocTabs {
     display: flex;
+    flex-wrap: wrap;
   }
   .battleTabs {
     color: #ffff;
     padding: 15px;
     text-align: center;
-    width: 50%;
+    max-width: 10%;
     background: rgba(128, 128, 128, 0.075);
     cursor: pointer;
     border-bottom: 1px solid rgba(0, 0, 0, 0.274);
-    box-sizing: content-box;
     position: relative;
     outline: none;
   }
@@ -62,7 +62,7 @@
   }
   .content {
     background: #4e5d6c;
-    padding: 20px;
+    padding-top: 10px;
     width: 100%;
     height: 100%;
     display: none;

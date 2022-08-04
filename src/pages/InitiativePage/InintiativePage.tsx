@@ -19,13 +19,13 @@ const InitiativePage: FC<InitiativePageProps> = ({
   useEffect(() => {
     const npcDefaultInitiative = npcArray.reduce(
       (prevNpc: any, nextNpc: any) => {
-        return { ...prevNpc, [nextNpc.name]: '' };
+        return { ...prevNpc, [nextNpc.id]: '' };
       },
       {}
     );
     const characterDefaultInitiative = characterArray.reduce(
       (prevChar:any,nextChar: any) => {
-        return {...prevChar, [nextChar.characterName]: '' };
+        return {...prevChar, [nextChar.id]: '' };
       },
       {}
     );
@@ -54,6 +54,8 @@ const InitiativePage: FC<InitiativePageProps> = ({
   const changeInitiativeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
+    console.log(initiativeList);
+    
     const value = parseInt(event.target.value);
     const isEmpty = event.target.innerText.length === 0;
      if(isEmpty){
@@ -67,15 +69,15 @@ const InitiativePage: FC<InitiativePageProps> = ({
   let characterNameList = null;
   if(initiativeList){
   characterNameList = characterArray.map((char: any) => (
-    <InputGroup className="mb-3" key={char.characterName}>
+    <InputGroup className="mb-3" key={char.id}>
         <InputGroup.Text id="inputGroup-sizing-default">
           {char.characterName}
         </InputGroup.Text>
         <Form.Control
           required
           onChange={changeInitiativeHandler}
-          name={char.characterName}
-          value={initiativeList[char.characterName]}
+          name={char.id}
+          value={initiativeList[char.id]}
           type="number"
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
@@ -90,15 +92,16 @@ const InitiativePage: FC<InitiativePageProps> = ({
   let npcNameList = null;
   if (initiativeList) {
     npcNameList = npcArray.map((npc: any) => (
-      <InputGroup className="mb-3" key={npc.name}>
+      <InputGroup className="mb-3" key={npc.id}>
         <InputGroup.Text id="inputGroup-sizing-default">
           {npc.name}
         </InputGroup.Text>
         <Form.Control
           required
           onChange={changeInitiativeHandler}
-          name={npc.name}
-          value={initiativeList[npc.name]}
+          name={npc.id}
+          value={initiativeList[npc.id]}
+
           type="number"
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"

@@ -2,7 +2,6 @@ input[type=number]{
     -moz-appearance: textfield;
 }
 .charInput{
-    margin: 10px;
     width: 80%;
 }
 
@@ -11,4 +10,18 @@ input[type=number]{
 }
 .characterDisctiption{
     width: 100%;
+}
+
+.characteristicInput{
+    width: 100%;
+    margin: 2px;
+}
+
+.characterInputCard {
+    padding: 10px 10px 0 10px; 
+}
+
+.addEditBtn{
+    width: 100%;
+    margin-top: 5px;
 }

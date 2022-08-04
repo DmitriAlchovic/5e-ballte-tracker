@@ -56,7 +56,7 @@ const CreatePage: FC<CreatePageProps> = ({ submitNpc }) => {
       const duplicatesOfNpc = npcArrayCandidate.reduce(
         (counter: number, item: Character) => {
           if (item.name === `${selectedCharacter.name} ${counter}`) {
-            return (counter + 1);
+            return counter + 1;
           } else {
             return counter;
           }
@@ -73,35 +73,50 @@ const CreatePage: FC<CreatePageProps> = ({ submitNpc }) => {
     }
   };
 
+  const deleteNpcHandler = (npcName:string)=>{
+    const idx = npcArrayCandidate.findIndex((npc:Character)=>npc.name === npcName);
+    const newNpcArrayCandidate = [...npcArrayCandidate.slice(0,idx),...npcArrayCandidate.slice(idx+1)]
+    setNpcArray(newNpcArrayCandidate);
+
+  }
+
   return (
-    <div className="createPageContainer">
-      <SearchBar
-        value=""
-        changeHandler={changeHandler}
-        lists={lists}
-      ></SearchBar>
-      <div className="cardsContainer">
-        {selectedCharacter && (
-          <NpcInfoCard selectedCharacter={selectedCharacter} />
-        )}
-        {npcArrayCandidate[0] && <NpcListCard npcArray={npcArrayCandidate} />}
+    <div>
+      <h2>Add some NPC</h2>
+      <div className="createPageContainer">
+        <div className="searchAndCardContainer">
+          <SearchBar
+            value=""
+            changeHandler={changeHandler}
+            lists={lists}
+          ></SearchBar>
+          {selectedCharacter && (
+            <NpcInfoCard selectedCharacter={selectedCharacter} />
+          )}
+          {selectedCharacter && (
+            <Button
+              className="addNpcBtn"
+              onClick={() => {
+                addNpcHandler();
+              }}
+            >
+              Add selected npc
+            </Button>
+          )}
+          <Link to="/initiative/">
+            <Button
+              onClick={() => {
+                submitNpc(npcArrayCandidate);
+              }}
+            >
+              Done!
+            </Button>
+          </Link>
+        </div>
+        <div className="npcListContainer">
+          {npcArrayCandidate[0] && <NpcListCard deleteHandler={deleteNpcHandler} npcArray={npcArrayCandidate} />}
+        </div>
       </div>
-      <Button
-        onClick={() => {
-          addNpcHandler();
-        }}
-      >
-        Add selected npc
-      </Button>
-      <Link to="/initiative/">
-        <Button
-          onClick={() => {
-            submitNpc(npcArrayCandidate);
-          }}
-        >
-          Done!
-        </Button>
-      </Link>
     </div>
   );
 };

@@ -1,4 +1,3 @@
-
 export interface CreateFightProps {
   inputName: string;
   value: number | string;
@@ -9,35 +8,35 @@ export interface CreateFightProps {
 
 export interface ApiCharacter {
   actions: ApiAction[];
-  alignment:string;
+  alignment: string;
   armor_class: number;
   challenge_rating: number;
-  charisma:number;
+  charisma: number;
   condition_immunities: ConditionImmunity[];
-  constitution:number;
+  constitution: number;
   damage_immunities: string[];
   damage_resistances: string[];
   damage_vulnerabilities: string[];
-  dexterity:number;
+  dexterity: number;
   hit_dice: string;
   hit_points: number;
-  index:string;
-  intelligence:number;
-  initiative:number;
-  languages:string;
+  index: string;
+  intelligence: number;
+  initiative: number;
+  languages: string;
   legendary_actions: LegendaryAction[];
-  name:string;
-  proficiencies:Proficiencies[];
+  name: string;
+  proficiencies: Proficiencies[];
   senses: ApiSenses;
-  size:string;
+  size: string;
   special_abilities?: ApiSpecialAbility[];
-  speed:Speed;
-  strength:number;
-  subtype:null|string;
-  type:string;
-  url:string;
-  wisdom:number;
-  xp:number;
+  speed: Speed;
+  strength: number;
+  subtype: null | string;
+  type: string;
+  url: string;
+  wisdom: number;
+  xp: number;
 }
 
 export interface Monster {
@@ -84,9 +83,9 @@ export interface Character {
   charisma?: number;
   conditionImmunities?: ConditionImmunity[];
   constitution?: number;
-  damageImmunities?: string[];
-  damageResistances?: string[];
-  damageVulnerabilities?: string[];
+  damageImmunities: string[];
+  damageResistances: string[];
+  damageVulnerabilities: string[];
   dexterity: number;
   hitDice?: string;
   hitPoints: number;
@@ -107,7 +106,8 @@ export interface Character {
   url?: string;
   wisdom?: number;
   xp?: number;
-  characterType:"npc";
+  characterType: 'npc';
+  id: string;
 }
 
 export interface Action {
@@ -213,7 +213,7 @@ export interface Speed {
 export interface SearchProps {
   changeHandler: Function;
   value: string;
-  lists:any;
+  lists: any;
 }
 
 export interface InputCardProps {
@@ -223,74 +223,102 @@ export interface InputCardProps {
 
 export interface BattleCardProps {
   npc: Character;
-  hitpointsChange: Function;
+  statusChange: Function;
+  fightCharStatus:FightCharStatus;
 }
 
 export interface PlayerCharacter {
-  characterName:string;
-  playerName:string;
-  armorClass:number;
-  maxHitpoints:number;
-  currentHitpoints:number;
-  speed:number;
+  characterName: string;
+  playerName: string;
+  armorClass: number;
+  maxHitpoints: number;
+  hitPoints: number;
+  speed: number;
   strength: number;
   dexterity: number;
   constitution: number;
   intelligence: number;
   wisdom: number;
   charisma: number;
-  passivePreception:number;
-  darkvision:boolean;
-  languages:string;
-  discription:string; 
-  initiative?:any;
-  characterType:'playerCharacter'
-  id?:string;
+  passivePreception: number;
+  darkvision: boolean;
+  languages: string;
+  discription: string;
+  initiative?: any;
+  characterType: 'playerCharacter';
+  id: string;
 }
 
 export interface Party {
-  partyName:string;
-  partyMembers:PlayerCharacter[];
+  partyName: string;
+  partyMembers: PlayerCharacter[];
 }
 
 export interface SelectTabProps {
-  activeParties:Party[];
-  addParty:Function;
-  submitCharacters:Function;
-  editParty:Function;
+  activeParties: Party[];
+  addParty: Function;
+  submitCharacters: Function;
+  editParty: Function;
+  deleteParty: Function;
 }
 
 export interface CharacterInputCardProps {
-  addOrEditPartyMember:Function;
-  characterToEdit?:PlayerCharacter;
+  addOrEditPartyMember: Function;
+  characterToEdit?: PlayerCharacter;
 }
 
 export interface CharacterInfoCardProps {
-  partyMembers:PlayerCharacter[];
+  partyMembers: PlayerCharacter[];
 }
 
 export interface NpcInfoCardProps {
-  selectedCharacter:Character;
+  selectedCharacter: Character;
 }
 
 export interface NpcListCardProps {
-  npcArray:Character[];
+  npcArray: Character[];
+  deleteHandler: Function;
 }
 
 export interface FightPageProps {
-  partyArray:PlayerCharacter[];
-  npcArray:Character[];
-  initiativeList:InitiativeList|undefined;
+  partyArray: PlayerCharacter[];
+  npcArray: Character[];
+  initiativeList: InitiativeList | undefined;
 }
 
-export interface InitiativeList{
-    [key: string]:  number;
-  }
+export interface InitiativeList {
+  [id: string]: number;
+}
 
-  export interface BattleTabProps {
-    fightArray:Character[]|PlayerCharacter[];
-  }
+export interface BattleTabProps {
+  fightArray: Character[] | PlayerCharacter[];
+  fightCharStatus?: FightCharStatus;
+  statusChangeHandler:Function;
+}
 
-  export interface BattleCharacterCardProps {
-    playerCharacter:PlayerCharacter;
-  }
+export interface BattleCharacterCardProps {
+  playerCharacter: PlayerCharacter;
+  fightCharStatus:FightCharStatus;
+}
+
+export interface FightCharStatus {
+  [id: string]: {
+    hitPoints: number;
+    Blinded: false;
+    Charmed: false;
+    Deafened: false;
+    Frightened: false;
+    Grappled: false;
+    Incapacitated: false;
+    Invisible: false;
+    Paralyzed: false;
+    Petrified: false;
+    Poisoned: false;
+    Prone: false;
+    Restrained: false;
+    Stunned: false;
+    Unconscious: false;
+    Exhaustion: false;
+    ConcentratedOnSpell:false;
+  };
+}

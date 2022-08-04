@@ -7,10 +7,12 @@ import {
   InitiativeList,
   Party,
   PlayerCharacter,
+  Character
 } from '../../interfaces';
 import CreatePage from '../../pages/CreatePage';
 import './AppRouter.css';
 import InitiativePage from '../../pages/InitiativePage';
+import { nanoid } from 'nanoid';
 
 const AppRouter = () => {
   const navigate = useNavigate();
@@ -24,7 +26,10 @@ const AppRouter = () => {
   };
 
   const submitNpc = (npcArrayToApply: any) => {
-    setNpcArray(npcArrayToApply);
+    const npcArrayWithId = npcArrayToApply.map((npc:Character)=>{
+      const id = nanoid();
+      return {...npc,id} })
+    setNpcArray(npcArrayWithId);
   };
 
   const submitInitiative = (initiativeListCandidate: InitiativeList) => {
@@ -34,6 +39,8 @@ const AppRouter = () => {
 
   return (
     <div className="mainContainer">
+      <div className='backgroundImg'></div>
+      <div className='appContainer'>
       <NavBar />
       <Routes>
         <Route
@@ -65,6 +72,7 @@ const AppRouter = () => {
           path="/fight/"
         ></Route>
       </Routes>
+      </div>
     </div>
   );
 };

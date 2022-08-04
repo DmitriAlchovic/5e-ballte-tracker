@@ -18,15 +18,46 @@
     display: flex;
 }
 
-.partyNameInput {
-    margin: 10px;
-}
+
 
 .partyMembersContainer{
     background-color: #808080;
     height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .partyMembersDisplay{
     display: none;
+}
+
+.listGroupBtnContainer{
+    width: 100%;
+    display: flex;
+    margin: 0;
+}
+
+.listGroupBtn{
+    margin: 0;
+    flex-grow: 1;
+}
+
+.listGroupItem {
+    flex-grow: 50;
+}
+
+.listGroupItemContainer{
+    margin:0 1px 1px 1px;
+
+}
+
+.createFightBtn {
+    width: 100%;
+}
+
+.addPartyContainer {
+    display: flex;
+    margin: 5px;
+    width: 100%;
 }

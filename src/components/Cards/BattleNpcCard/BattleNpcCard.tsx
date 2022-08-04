@@ -12,13 +12,14 @@ import {
 
 const BattleNpcCard: React.FC<BattleCardProps> = ({
   npc,
-  hitpointsChange,
+  statusChange,
+  fightCharStatus
 }) => {
   const getStatBonus = (stat: number): number => {
     const statBonus = Math.floor((stat - 10) / 2);
     return statBonus;
   };
-
+  
   const displayProficiences = (profissience: Proficiencies[]) => {
     const saveThrows: string[] = [];
     const skills: string[] = [];
@@ -66,10 +67,13 @@ const BattleNpcCard: React.FC<BattleCardProps> = ({
           <Card.Text>
             Hit Points {npc.hitPoints} ({npc.hitDice})
             <input
+              id={npc.id}
               min={0}
-              onChange={(event) => hitpointsChange()}
+              onChange={(event) => statusChange(event)}
               className="hit-points-input"
               type="number"
+              name="hitPoints"
+              value={fightCharStatus[npc.id].hitPoints}
             />
           </Card.Text>
           <Card.Text>
@@ -129,18 +133,18 @@ const BattleNpcCard: React.FC<BattleCardProps> = ({
             </tbody>
           </Table>
 
-          {npc.proficiencies  && displayProficiences(npc.proficiencies)}
-          {npc.damageImmunities?.length && (
+          {npc.proficiencies?.length  && displayProficiences(npc.proficiencies)}
+          {npc.damageImmunities.length && 
             <Card.Text>Damage Immunities:{npc.damageImmunities}</Card.Text>
-          ) }
-          {npc.damageResistances?.length && (
+           }
+          {npc.damageResistances.length && 
             <Card.Text>Damage Resistances:{npc.damageResistances}</Card.Text>
-          ) }
-          {npc.damageVulnerabilities?.length && (
+           }
+          {npc.damageVulnerabilities.length && 
             <Card.Text>
               Damage Vulnerabilities:{npc.damageVulnerabilities}
             </Card.Text>
-          ) }
+           }
           <Card.Text>
             Senses:
             {npc.senses?.passivePerception
@@ -166,7 +170,7 @@ const BattleNpcCard: React.FC<BattleCardProps> = ({
         </Card.Body>
         <Card.Header>Actions</Card.Header>
         {npc.actions && displayActionsList(npc.actions) }
-        {npc.legendaryActions && (
+        {npc.legendaryActions?.length && (
           <Card.Header>Legendary Actions</Card.Header>
         ) }
         {npc.legendaryActions

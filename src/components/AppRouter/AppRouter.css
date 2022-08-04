@@ -1,8 +1,18 @@
-.mainContainer{
-background-image: url('../../assets/background1.jpg');
-  object-fit:fill;
+.mainContainer {
+  position: relative;
+}
+
+.backgroundImg {
+  background-image: url('../../assets/background1.jpg');
+  object-fit: fill;
   background-repeat: no-repeat;
   width: 100vw;
   height: 100vh;
-  background-size:cover;
+  background-size: cover;
+  position:fixed;
+}
+
+.appContainer {
+  z-index: 1;
+  position: relative;
 }

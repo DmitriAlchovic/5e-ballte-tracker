@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC } from 'react';
 import {
   NpcInfoCardProps,
   Proficiencies,
@@ -92,6 +92,7 @@ const NpcInfoCard: FC<NpcInfoCardProps> = ({ selectedCharacter }) => {
               onChange={(e) => {}}
               className="hit-points-input"
               type="number"
+              value={hitPoints}
             />
           </Card.Text>
           <Card.Text>
@@ -132,17 +133,17 @@ const NpcInfoCard: FC<NpcInfoCardProps> = ({ selectedCharacter }) => {
           </Table>
 
           {proficiencies && displayProficiences(proficiencies)}
-          {damageImmunities?.length && (
+          {damageImmunities.length && 
             <Card.Text>Damage Immunities:{damageImmunities}</Card.Text>
-          )}
-          {damageResistances?.length && (
+          }
+          {damageResistances.length && (
             <Card.Text>Damage Resistances:{damageResistances}</Card.Text>
           )}
-          {damageVulnerabilities?.length && (
+          {damageVulnerabilities.length && 
             <Card.Text>
               Damage Vulnerabilities:{damageVulnerabilities}
             </Card.Text>
-          )}
+          }
           <Card.Text>
             Senses:
             {senses?.passivePerception &&
@@ -161,8 +162,8 @@ const NpcInfoCard: FC<NpcInfoCardProps> = ({ selectedCharacter }) => {
         </Card.Body>
         <Card.Header>Actions</Card.Header>
         {actions && displayActionsList(actions)}
-        {legendaryActions && <Card.Header>Legendary Actions</Card.Header>}
-        {legendaryActions && displayActionsList(legendaryActions)}
+        {legendaryActions?.length && <Card.Header>Legendary Actions</Card.Header>}
+        {legendaryActions?.length && displayActionsList(legendaryActions)}
       </Card>
     </div>
   );

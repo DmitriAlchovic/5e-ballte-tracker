@@ -5,7 +5,7 @@ import { Button } from 'react-bootstrap';
 import './BattleTab.css';
 import BattleCharacterCard from '../../Cards/BattleCharacterCard';
 
-const BattleTab: FC<BattleTabProps> = ({ fightArray }) => {
+const BattleTab: FC<BattleTabProps> = ({ fightArray, fightCharStatus, statusChangeHandler }) => {
   const [toggleState, setToggleState] = useState(0);
   const [currentTurn, setCurrentTurn] = useState(0);
 
@@ -61,6 +61,8 @@ const BattleTab: FC<BattleTabProps> = ({ fightArray }) => {
     setToggleState(nextTurn);
   };
 
+  
+
   const contentTabs = fightArray.map((char, index) => {
     if (char.characterType === 'playerCharacter') {
       return (
@@ -70,7 +72,7 @@ const BattleTab: FC<BattleTabProps> = ({ fightArray }) => {
             toggleState === index ? 'content  activeContent' : 'content'
           }
         >
-          <BattleCharacterCard playerCharacter={char} />
+          {fightCharStatus&&<BattleCharacterCard playerCharacter={char} fightCharStatus={fightCharStatus} />}
         </div>
       );
     } else if (char.characterType === 'npc') {
@@ -81,7 +83,7 @@ const BattleTab: FC<BattleTabProps> = ({ fightArray }) => {
             toggleState === index ? 'content  activeContent' : 'content'
           }
         >
-          <BattleCard npc={char} hitpointsChange={() => {}} />
+          {fightCharStatus&&<BattleCard npc={char} statusChange={statusChangeHandler} fightCharStatus={fightCharStatus} />}
         </div>
       );
     }
