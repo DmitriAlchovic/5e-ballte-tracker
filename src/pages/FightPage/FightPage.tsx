@@ -1,7 +1,8 @@
 import React, { useEffect, useState, FC } from 'react';
 import { Button } from 'react-bootstrap';
 import BattleTab from '../../components/Tabs/BattleTab';
-import { Character, FightCharStatus, FightPageProps, PlayerCharacter } from '../../interfaces';
+import { Character, FightPageProps, PlayerCharacter } from '../../interfaces';
+import { Link } from 'react-router-dom';
 
 const FightPage: FC<FightPageProps> = ({
   npcArray,
@@ -17,21 +18,24 @@ const FightPage: FC<FightPageProps> = ({
   };
 
   useEffect(() => {
+    console.log(initiativeList);
+     
     if (initiativeList) {
       const partyArrayInitiative = partyArray.map((player) => {
         return {
           ...player,
           initiative:
-            initiativeList[player.characterName] +
+            initiativeList[player.id] +
             getStatBonus(player.dexterity),
         };
       });
       const npcArrayInitiative = npcArray.map((npc) => {
         return {
           ...npc,
-          initiative: initiativeList[npc.name] + getStatBonus(npc.dexterity),
+          initiative: initiativeList[npc.id] + getStatBonus(npc.dexterity),
         };
       });
+      
       const fightArraySorted = [
         ...partyArrayInitiative,
         ...npcArrayInitiative,
@@ -43,6 +47,7 @@ const FightPage: FC<FightPageProps> = ({
         }
         return nextChar.initiative - prevChar.initiative;
       });
+      console.log(fightArraySorted);
       setFightArray(fightArraySorted);
     }
   }, [npcArray, partyArray, initiativeList]);
@@ -98,7 +103,7 @@ const FightPage: FC<FightPageProps> = ({
   return (
     <div>
       <h2>Round:</h2>
-      <Button>End Fight</Button>
+      <Link to={'/'} ><Button onClick={()=>{}} >End Fight</Button></Link>
       {fightArray && <BattleTab fightArray={fightArray} fightCharStatus={fightCharStatus} statusChangeHandler={statusChangeHandler} />}
     </div>
   );

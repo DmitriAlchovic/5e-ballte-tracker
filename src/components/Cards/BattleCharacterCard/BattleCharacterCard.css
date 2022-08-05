@@ -1,0 +1,12 @@
+.statusRadioContainer{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.switchContainer{
+    display: flex;
+    margin: 5px;
+    width: 100%;
+    justify-content: space-between;
+}

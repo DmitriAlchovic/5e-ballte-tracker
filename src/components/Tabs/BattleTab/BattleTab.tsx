@@ -29,7 +29,7 @@ const BattleTab: FC<BattleTabProps> = ({ fightArray, fightCharStatus, statusChan
           }
           onClick={() => toggleTab(index)}
         >
-          {char.characterName}
+          {char.characterName}<p>{`(${char.playerName})`}</p>
         </button>
       );
     } else if (char.characterType === 'npc') {

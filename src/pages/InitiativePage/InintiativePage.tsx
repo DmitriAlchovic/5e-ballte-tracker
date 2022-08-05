@@ -5,13 +5,13 @@ import './InitiativePage.css';
 export interface InitiativePageProps {
   characterArray: any;
   npcArray: any;
-  submitInitiative:Function;
+  submitInitiative: Function;
 }
 
 const InitiativePage: FC<InitiativePageProps> = ({
   characterArray,
   npcArray,
-  submitInitiative
+  submitInitiative,
 }) => {
   const [initiativeList, setInitiativeList] = useState<any>();
   const [validated, setValidated] = useState(false);
@@ -24,8 +24,8 @@ const InitiativePage: FC<InitiativePageProps> = ({
       {}
     );
     const characterDefaultInitiative = characterArray.reduce(
-      (prevChar:any,nextChar: any) => {
-        return {...prevChar, [nextChar.id]: '' };
+      (prevChar: any, nextChar: any) => {
+        return { ...prevChar, [nextChar.id]: '' };
       },
       {}
     );
@@ -47,7 +47,7 @@ const InitiativePage: FC<InitiativePageProps> = ({
   useEffect(() => {
     if (initiativeList) {
       const hasData = allItemsEntered(initiativeList);
-        setValidated(hasData);
+      setValidated(hasData);
     }
   }, [initiativeList]);
 
@@ -55,21 +55,21 @@ const InitiativePage: FC<InitiativePageProps> = ({
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     console.log(initiativeList);
-    
+
     const value = parseInt(event.target.value);
     const isEmpty = event.target.innerText.length === 0;
-     if(isEmpty){
-      setInitiativeList({...initiativeList,[event.target.name]:''})
-    } 
-    if (!isNaN(value) ) {
+    if (isEmpty) {
+      setInitiativeList({ ...initiativeList, [event.target.name]: '' });
+    }
+    if (!isNaN(value)) {
       setInitiativeList({ ...initiativeList, [event.target.name]: value });
     }
   };
 
   let characterNameList = null;
-  if(initiativeList){
-  characterNameList = characterArray.map((char: any) => (
-    <InputGroup className="mb-3" key={char.id}>
+  if (initiativeList) {
+    characterNameList = characterArray.map((char: any) => (
+      <InputGroup className="mb-3" key={char.id}>
         <InputGroup.Text id="inputGroup-sizing-default">
           {char.characterName}
         </InputGroup.Text>
@@ -87,7 +87,8 @@ const InitiativePage: FC<InitiativePageProps> = ({
         </Form.Control.Feedback>
         <Form.Control.Feedback type="valid">Great</Form.Control.Feedback>
       </InputGroup>
-  ));}
+    ));
+  }
 
   let npcNameList = null;
   if (initiativeList) {
@@ -101,7 +102,6 @@ const InitiativePage: FC<InitiativePageProps> = ({
           onChange={changeInitiativeHandler}
           name={npc.id}
           value={initiativeList[npc.id]}
-
           type="number"
           aria-label="Default"
           aria-describedby="inputGroup-sizing-default"
@@ -120,8 +120,8 @@ const InitiativePage: FC<InitiativePageProps> = ({
       event.stopPropagation();
     }
     event.preventDefault();
-      event.stopPropagation();
-      submitInitiative(initiativeList);
+    event.stopPropagation();
+    submitInitiative(initiativeList);
   };
 
   return (
@@ -139,7 +139,23 @@ const InitiativePage: FC<InitiativePageProps> = ({
               {npcNameList}
             </Card.Body>
             <Card.Footer>
-             {validated? <Button variant='success' type="submit">Done!</Button>:<Button variant='secondary' disabled >Done!</Button>}
+              {validated ? (
+                <Button
+                  className="submitInitiativeBtn"
+                  variant="success"
+                  type="submit"
+                >
+                  Done!
+                </Button>
+              ) : (
+                <Button
+                  className="submitInitiativeBtn"
+                  variant="secondary"
+                  disabled
+                >
+                  Done!
+                </Button>
+              )}
             </Card.Footer>
           </Card>
         </Form>

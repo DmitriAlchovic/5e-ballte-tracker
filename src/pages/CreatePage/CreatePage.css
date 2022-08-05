@@ -14,3 +14,11 @@
 .npcListContainer{
     background-color: #808080;
 }
+
+.searchAndBtnContainer {
+    display: flex;
+}
+
+.addNpcBtn{
+    width: 100%;
+}

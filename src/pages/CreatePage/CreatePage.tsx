@@ -85,11 +85,20 @@ const CreatePage: FC<CreatePageProps> = ({ submitNpc }) => {
       <h2>Add some NPC</h2>
       <div className="createPageContainer">
         <div className="searchAndCardContainer">
+          <div className='searchAndBtnContainer'>
           <SearchBar
             value=""
             changeHandler={changeHandler}
             lists={lists}
-          ></SearchBar>
+          ></SearchBar><Link to="/initiative/">
+            <Button
+              onClick={() => {
+                submitNpc(npcArrayCandidate);
+              }}
+            >
+              Done!
+            </Button>
+          </Link></div>
           {selectedCharacter && (
             <NpcInfoCard selectedCharacter={selectedCharacter} />
           )}
@@ -103,15 +112,7 @@ const CreatePage: FC<CreatePageProps> = ({ submitNpc }) => {
               Add selected npc
             </Button>
           )}
-          <Link to="/initiative/">
-            <Button
-              onClick={() => {
-                submitNpc(npcArrayCandidate);
-              }}
-            >
-              Done!
-            </Button>
-          </Link>
+          
         </div>
         <div className="npcListContainer">
           {npcArrayCandidate[0] && <NpcListCard deleteHandler={deleteNpcHandler} npcArray={npcArrayCandidate} />}
