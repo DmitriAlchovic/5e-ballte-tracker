@@ -225,6 +225,7 @@ export interface BattleCardProps {
   npc: Character;
   statusChange: Function;
   fightCharStatus:FightCharStatus;
+  roundCounter:number;
 }
 
 export interface PlayerCharacter {
@@ -294,11 +295,14 @@ export interface BattleTabProps {
   fightArray: Character[] | PlayerCharacter[];
   fightCharStatus?: FightCharStatus;
   statusChangeHandler:Function;
+  changeRound:Function;
+  roundCounter:number;
 }
 
 export interface BattleCharacterCardProps {
   playerCharacter: PlayerCharacter;
   fightCharStatus:FightCharStatus;
+  statusChange:Function;
 }
 
 export interface FightCharStatus {
@@ -318,7 +322,70 @@ export interface FightCharStatus {
     Restrained: false;
     Stunned: false;
     Unconscious: false;
-    Exhaustion: false;
+    Exhaustion: string;
     ConcentratedOnSpell:false;
   };
+}
+
+export interface ApiSpell {
+  _id:string;
+  attack_type:string;
+  casting_time:string;
+  classes:string[];
+  components:string[];
+  concentration:boolean;
+  damage:{
+    damage_slot_level:{[key:number]:string};
+    damage_type:DamageType;
+  }
+  desc:string[];
+  duration:string;
+  higher_level:string[];
+  index:string;
+  level:number;
+  material:string;
+  name:string;
+  range:string;
+  ritual:boolean;
+  school:MagicSchool;
+  subclasses:Subcalsses[];
+  url:string;
+}
+
+export interface MagicSchool {
+  index:string;
+  name:string;
+  url:string;
+}
+
+export interface Subcalsses {
+  index:string;
+  name:string;
+  url:string;
+}
+
+export interface SpellInfoCardProps{
+  spellUrl:string;
+}
+
+export interface SpellInfo {
+  _id:string;
+  attackType:string;
+  castingTime:string;
+  classes:string[];
+  components:string[];
+  concentration:boolean;
+  damage:Damage;
+  desc:string[];
+  duration:string;
+  higherLevel:string[];
+  index:string;
+  level:number;
+  material:string;
+  name:string;
+  range:string;
+  ritual:boolean;
+  school:MagicSchool;
+  subclasses:Subcalsses[];
+  url:string;
 }

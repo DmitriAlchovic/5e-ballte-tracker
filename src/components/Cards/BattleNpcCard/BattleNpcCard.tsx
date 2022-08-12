@@ -1,20 +1,29 @@
 import React from 'react';
-import { Card, Table, Form, Dropdown, DropdownButton } from 'react-bootstrap';
+import {
+  Card,
+  Table,
+  Form,
+  Dropdown,
+  DropdownButton,
+} from 'react-bootstrap';
 import './BattleNpcCard.css';
 import {
   BattleCardProps,
-  Action,
   LegendaryAction,
   SpecialAbility,
   Proficiencies,
+  Spell,
 } from '../../../interfaces';
+import SpellInfoCard from '../SpellInfoCard';
 
 const BattleNpcCard: React.FC<BattleCardProps> = ({
   npc,
   statusChange,
   fightCharStatus,
+  roundCounter,
 }) => {
   const { id } = npc;
+
 
   const getStatBonus = (stat: number): number => {
     const statBonus = Math.floor((stat - 10) / 2);
@@ -41,20 +50,53 @@ const BattleNpcCard: React.FC<BattleCardProps> = ({
       </Card.Text>
     );
   };
+  const splitStr = (str: string, word: string, midleItem: any) => {
+    const wordIdx = str.search(word);
 
-  const displayActionsList = (
-    actions: Array<Action | LegendaryAction | SpecialAbility>
-  ) => {
-    const actionsArr = actions.map(({ name, desc }, index) => {
+    if (wordIdx !== -1) {
+      const firstHalf = str.slice(0, wordIdx - 1);
+      const seconHalf = str.slice(wordIdx + word.length, str.length);
+      return [firstHalf, midleItem, seconHalf];
+    } else {
+    }
+  };
+  const displayActionsList = (actions: any) => {
+    const actionsArr = actions.map((action: any, index: number) => {
+      const hasProperty = action.hasOwnProperty('spellcasting');
+      if (hasProperty) {
+        const spellsCards = action.spellcasting.spells.reduce(
+          (prevArr: any, { url, name }: Spell) => {
+            const infoCard = <SpellInfoCard spellUrl={url} />;
+            
+            if (prevArr.length) {
+              const descWithModal = prevArr.reduce((prev:any,item: any, idx: number) => {
+                if (typeof(item)==='string' && item.search(name.toLocaleLowerCase())!==-1 ) {
+                const newArr = splitStr(item,name.toLocaleLowerCase(),infoCard);
+                  if(newArr?.length){
+                return[...prevArr.slice(0,idx),...newArr,...prevArr.slice(idx+1)]
+                  }
+                }
+              },[]);
+              return descWithModal;
+            } else {
+              return splitStr(action.desc, name.toLowerCase(), infoCard);
+            }
+          },
+          []
+        );
+        
+        return <div className='spellLinkBtn'>{spellsCards}{action.desc}</div>;
+      }
       return (
-        <Card.Text key={index}>
-          {name}: {desc}
-        </Card.Text>
+        <div key={index}>
+          <Card.Text>
+            {action.name}: {action.desc}
+          </Card.Text>
+        </div>
       );
     });
     return actionsArr;
   };
-
   return (
     <div className="battleCard">
       <Card>
@@ -85,107 +127,196 @@ const BattleNpcCard: React.FC<BattleCardProps> = ({
           <Form>
             <div className="switchContainer">
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="ConcentratedOnSpell"
                 label="Concentrated"
                 checked={fightCharStatus[id].ConcentratedOnSpell}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Blinded"
                 label="Blinded"
                 checked={fightCharStatus[id].Blinded}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Charmed"
                 label="Charmed"
                 checked={fightCharStatus[id].Charmed}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
-                label="Deafend"
+                id={id}
+                name="Deafened"
+                label="Deafened"
                 checked={fightCharStatus[id].Deafened}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Frightened"
                 label="Frightened"
                 checked={fightCharStatus[id].Frightened}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Grappled"
                 label="Grappled"
                 checked={fightCharStatus[id].Grappled}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Incapacitated"
                 label="Incapacitated"
                 checked={fightCharStatus[id].Incapacitated}
               />
             </div>
             <div className="switchContainer">
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Invisible"
                 label="Invisible"
                 checked={fightCharStatus[id].Invisible}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Paralyzed"
                 label="Paralyzed"
                 checked={fightCharStatus[id].Paralyzed}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Petrified"
                 label="Petrified"
                 checked={fightCharStatus[id].Petrified}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Poisoned"
                 label="Poisoned"
                 checked={fightCharStatus[id].Poisoned}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Prone"
                 label="Prone"
                 checked={fightCharStatus[id].Prone}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Restrained"
                 label="Restrained"
                 checked={fightCharStatus[id].Restrained}
               />
               <Form.Check
+                onClick={(e) => statusChange(e)}
                 type="switch"
-                id="custom-switch"
+                id={id}
+                name="Stunned"
                 label="Stunned"
                 checked={fightCharStatus[id].Stunned}
               />
               <Form.Check
+                onClick={(e) => {
+                  statusChange(e);
+                }}
                 type="switch"
-                id="custom-switch"
-                label="Unconscious"
+                id={id}
+                name="Unconscious"
+                label={'Unconscious'}
                 checked={fightCharStatus[id].Unconscious}
               />
               <DropdownButton
                 id="dropdown-basic-button"
-                title="Exhaustion"
+                title={`Exhaustion: ${fightCharStatus[id].Exhaustion}`}
               >
-                <Dropdown.Item >Lvl: 1</Dropdown.Item>
-                <Dropdown.Item >Lvl: 2</Dropdown.Item>
-                <Dropdown.Item >Lvl: 3</Dropdown.Item>
-                <Dropdown.Item >Lvl: 4</Dropdown.Item>
-                <Dropdown.Item >Lvl: 5</Dropdown.Item>
-                <Dropdown.Item >Lvl: 6</Dropdown.Item>
+                <Dropdown.Item
+                  name="Exhaustion"
+                  id={id}
+                  onClick={(e) => {
+                    statusChange(e);
+                  }}
+                >
+                  {'none'}
+                </Dropdown.Item>
+                <Dropdown.Item
+                  name="Exhaustion"
+                  id={id}
+                  onClick={(e) => {
+                    statusChange(e);
+                  }}
+                >
+                  Lvl: 1
+                </Dropdown.Item>
+                <Dropdown.Item
+                  name="Exhaustion"
+                  id={id}
+                  onClick={(e) => {
+                    statusChange(e);
+                  }}
+                >
+                  Lvl: 2
+                </Dropdown.Item>
+                <Dropdown.Item
+                  name="Exhaustion"
+                  id={id}
+                  onClick={(e) => {
+                    statusChange(e);
+                  }}
+                >
+                  Lvl: 3
+                </Dropdown.Item>
+                <Dropdown.Item
+                  name="Exhaustion"
+                  id={id}
+                  onClick={(e) => {
+                    statusChange(e);
+                  }}
+                >
+                  Lvl: 4
+                </Dropdown.Item>
+                <Dropdown.Item
+                  name="Exhaustion"
+                  id={id}
+                  onClick={(e) => {
+                    statusChange(e);
+                  }}
+                >
+                  Lvl: 5
+                </Dropdown.Item>
+                <Dropdown.Item
+                  name="Exhaustion"
+                  id={id}
+                  onClick={(e) => {
+                    statusChange(e);
+                  }}
+                >
+                  Lvl: 6
+                </Dropdown.Item>
               </DropdownButton>
             </div>
           </Form>

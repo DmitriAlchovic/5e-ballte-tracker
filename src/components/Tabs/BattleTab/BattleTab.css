@@ -13,7 +13,6 @@
     height: 80vh;
     background: #5b6977;
     margin: 0 auto 0;
-    word-break: break-all;
     border: 1px solid rgba(0, 0, 0, 0.274);
   }
   
@@ -31,6 +30,7 @@
     border-bottom: 1px solid rgba(0, 0, 0, 0.274);
     position: relative;
     outline: none;
+    word-wrap:normal;
   }
   .tabs:not(:last-child){
     border-right: 1px solid rgba(0, 0, 0, 0.274);

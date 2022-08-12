@@ -88,6 +88,7 @@ const NpcInfoCard: FC<NpcInfoCardProps> = ({ selectedCharacter }) => {
           <Card.Text>
             Hit Points {hitPoints} ({hitDice})
             <input
+
               min={0}
               onChange={(e) => {}}
               className="hit-points-input"

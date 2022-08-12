@@ -19,6 +19,7 @@ const AppRouter = () => {
   const [charArray, setCharArray] = useState<PlayerCharacter[]>([]);
   const [npcArray, setNpcArray] = useState([]);
   const [initiativeList, setInitiativeList] = useState<InitiativeList>();
+  const [error, setError] = useState<Error>();
 
   const submitParty = (party: Party) => {
     setCharArray(party.partyMembers);

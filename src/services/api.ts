@@ -6,10 +6,11 @@ import {
   Action,
   SpecialAbility,
   Damage,
+  ApiSpell,
 } from "../interfaces";
 
 class Service {
-  _apiBase = "https://www.dnd5eapi.co/api";
+  _apiBase = "https://www.dnd5eapi.co";
 
   async getResource(url: string) {
     const res: Response = await fetch(`${this._apiBase}${url}`);
@@ -17,18 +18,22 @@ class Service {
     if (!res.ok) {
       throw new Error(`Could not fetch ${res.status}`);
     }
-
-    return await res.json();
+    return await (res.json());
   }
 
   async getMonstersList() {
-    const res = await this.getResource(`/monsters/`);
+    const res = await this.getResource(`/api/monsters/`);
     return res.results;
   }
   
   async getMonster(index: string) {
-    const monster = await this.getResource(`/monsters/${index}`);
+    const monster = await this.getResource(`/api/monsters/${index}`);
     return this._transfomCharInfo(monster);
+  }
+
+  async getItem(url:string){
+    const  spell = await this.getResource(url);
+    return await this._transformSpellInfo(spell);
   }
 
   findSpecialAbilities(
@@ -77,7 +82,9 @@ class Service {
     });
     return action;
   }
-
+  _transformSpellInfo(spell:ApiSpell) {
+    return{spell}
+  }
   _transfomCharInfo(char: ApiCharacter): Character {
     const actions = this.findActions(char.actions);
 

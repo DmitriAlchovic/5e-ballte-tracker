@@ -13,10 +13,14 @@
 
 .npcListContainer{
     background-color: #808080;
+    min-width: 300px;
+    overflow: scroll;
+    max-height: 80vh;
 }
 
 .searchAndBtnContainer {
     display: flex;
+    min-width: 500px;
 }
 
 .addNpcBtn{

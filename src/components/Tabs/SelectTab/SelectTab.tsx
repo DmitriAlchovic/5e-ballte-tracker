@@ -50,7 +50,7 @@ const SelectTab: React.FC<SelectTabProps> = ({
   const [addPartyMode, setAddPartyMode] = useState<boolean>(false);
 
   const addPartyMember = (candidate: PlayerCharacter) => {
-    const candidateWithId = { ...candidate, id: nanoid() };
+    const candidateWithId = { ...candidate, id: nanoid(), hitPoints:candidate.maxHitpoints };
     const newParty = [...currentParty.partyMembers, candidateWithId];
     setCurrentParty({ ...currentParty, partyMembers: newParty });
     if (addPartyMode === false) {

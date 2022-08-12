@@ -54,13 +54,7 @@ const InitiativePage: FC<InitiativePageProps> = ({
   const changeInitiativeHandler = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
-    console.log(initiativeList);
-
     const value = parseInt(event.target.value);
-    const isEmpty = event.target.innerText.length === 0;
-    if (isEmpty) {
-      setInitiativeList({ ...initiativeList, [event.target.name]: '' });
-    }
     if (!isNaN(value)) {
       setInitiativeList({ ...initiativeList, [event.target.name]: value });
     }
@@ -85,7 +79,6 @@ const InitiativePage: FC<InitiativePageProps> = ({
         <Form.Control.Feedback type="invalid">
           Please enter initiative
         </Form.Control.Feedback>
-        <Form.Control.Feedback type="valid">Great</Form.Control.Feedback>
       </InputGroup>
     ));
   }
@@ -98,6 +91,7 @@ const InitiativePage: FC<InitiativePageProps> = ({
           {npc.name}
         </InputGroup.Text>
         <Form.Control
+          className='initiativeInput'
           required
           onChange={changeInitiativeHandler}
           name={npc.id}
@@ -109,7 +103,6 @@ const InitiativePage: FC<InitiativePageProps> = ({
         <Form.Control.Feedback type="invalid">
           Please enter initiative
         </Form.Control.Feedback>
-        <Form.Control.Feedback type="valid">Great</Form.Control.Feedback>
       </InputGroup>
     ));
   }

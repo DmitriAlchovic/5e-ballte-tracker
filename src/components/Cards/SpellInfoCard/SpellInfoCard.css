@@ -1,0 +1,6 @@
+.showModalBtn{
+    margin: 0;
+    padding: 0;
+    --bs-btn-padding-x: 0rem;
+    --bs-btn-padding-y: 0rem;
+}

@@ -116,7 +116,7 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                 Please enter player name.
               </Form.Control.Feedback>
             </Form.Group>
-            <Row className='mb-2'>
+            <Row className='mb-3'>
             <Form.Group as={Col} controlId="armorClass">
               <Form.Label>Armor Class</Form.Label>
               <InputGroup hasValidation>
@@ -142,6 +142,22 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                   required
                   name="speed"
                   value={characterCandidate.speed}
+                  onChange={handlerChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please enter character speed.
+                </Form.Control.Feedback>
+              </InputGroup>
+            </Form.Group>
+            <Form.Group as={Col} controlId="maxHitpoins">
+              <Form.Label>Max hit poinst</Form.Label>
+              <InputGroup hasValidation>
+                <Form.Control
+                  className="charInput"
+                  type="number"
+                  required
+                  name="maxHitpoints"
+                  value={characterCandidate.maxHitpoints}
                   onChange={handlerChange}
                 />
                 <Form.Control.Feedback type="invalid">
@@ -190,7 +206,7 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                   className='characteristicInput'
                   type="number"
                   required
-                  name="intelegence"
+                  name="intelligence"
                   value={characterCandidate.intelligence}
                   onChange={handlerChange}
                 />
@@ -220,13 +236,29 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
             </Row>
             <Row className="mb-4">
               <Form.Group as={Col} md="4" controlId="passivePerseption">
+                <Form.Label>Languages</Form.Label>
+                <InputGroup hasValidation>
+                  <Form.Control
+                    className="charInput"
+                    type="number"
+                    required
+                    name="languages"
+                    value={characterCandidate.languages}
+                    onChange={handlerChange}
+                  />
+                  <Form.Control.Feedback type="invalid">
+                    Please enter passive perseption.
+                  </Form.Control.Feedback>
+                </InputGroup>
+              </Form.Group>
+              <Form.Group as={Col} md="4" controlId="passivePerseption">
                 <Form.Label>Passive perseption</Form.Label>
                 <InputGroup hasValidation>
                   <Form.Control
                     className="charInput"
                     type="number"
                     required
-                    name="passivePerseption"
+                    name="passivePreception"
                     value={characterCandidate.passivePreception}
                     onChange={handlerChange}
                   />

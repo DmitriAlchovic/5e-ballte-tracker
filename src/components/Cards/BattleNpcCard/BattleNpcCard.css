@@ -7,3 +7,7 @@
     max-width: 15%;
     text-align: right;
 }
+
+.spellLinkBtn{
+    display: inline;
+}

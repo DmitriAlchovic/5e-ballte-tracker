@@ -1,5 +1,6 @@
 .inputCardsContainer{
     max-width: 1000px;
+    min-width: 400px;
 }
 
 .initiativePageContainer{
@@ -11,4 +12,8 @@
 
 .submitInitiativeBtn{
     width: 100%;
+}
+
+.initiativeInput{
+    width:300px ;
 }

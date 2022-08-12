@@ -5,9 +5,15 @@ import { Button } from 'react-bootstrap';
 import './BattleTab.css';
 import BattleCharacterCard from '../../Cards/BattleCharacterCard';
 
-const BattleTab: FC<BattleTabProps> = ({ fightArray, fightCharStatus, statusChangeHandler }) => {
-  const [toggleState, setToggleState] = useState(0);
-  const [currentTurn, setCurrentTurn] = useState(0);
+const BattleTab: FC<BattleTabProps> = ({
+  fightArray,
+  fightCharStatus,
+  statusChangeHandler,
+  changeRound,
+  roundCounter
+}) => {
+  const [toggleState, setToggleState] = useState<any>(0);
+  const [currentTurn, setCurrentTurn] = useState<any>(0);
 
   const toggleTab = (index: number) => {
     setToggleState(index);
@@ -29,13 +35,14 @@ const BattleTab: FC<BattleTabProps> = ({ fightArray, fightCharStatus, statusChan
           }
           onClick={() => toggleTab(index)}
         >
-          {char.characterName}<p>{`(${char.playerName})`}</p>
+          {char.characterName}
+          <p>{`(${char.playerName})`}</p>
         </button>
       );
     } else if (char.characterType === 'npc') {
       return (
         <button
-        key={index}
+          key={index}
           className={
             toggleState === index
               ? currentTurn === index
@@ -54,14 +61,36 @@ const BattleTab: FC<BattleTabProps> = ({ fightArray, fightCharStatus, statusChan
     return null;
   });
 
+  const healthCheck = (): number | string => {
+    let counter = currentTurn + 1 === fightArray.length ? 0 : currentTurn + 1;
+    let loopCounter = 1;
+    while (true) {
+      const status = fightCharStatus
+        ? fightCharStatus[fightArray[counter].id].hitPoints
+        : null;
+      if (status) {
+        break;
+      } else if (fightArray[counter].characterType === 'playerCharacter') {
+        break;
+      } else if (loopCounter !== fightArray.length) {
+        ++counter;
+        ++loopCounter;
+      } else {
+        counter = 'null';
+        break;
+      }
+    }
+    return counter;
+  };
+
   const nextTurn = () => {
-    const nextTurn =
-      currentTurn + 1 === fightArray.length ? 0 : currentTurn + 1;
+    const nextTurn = healthCheck();
+    if (currentTurn + 1 === fightArray.length) {
+      changeRound();
+    }
     setCurrentTurn(nextTurn);
     setToggleState(nextTurn);
   };
-
-  
 
   const contentTabs = fightArray.map((char, index) => {
     if (char.characterType === 'playerCharacter') {
@@ -72,7 +101,13 @@ const BattleTab: FC<BattleTabProps> = ({ fightArray, fightCharStatus, statusChan
             toggleState === index ? 'content  activeContent' : 'content'
           }
         >
-          {fightCharStatus&&<BattleCharacterCard playerCharacter={char} fightCharStatus={fightCharStatus} />}
+          {fightCharStatus && (
+            <BattleCharacterCard
+              playerCharacter={char}
+              fightCharStatus={fightCharStatus}
+              statusChange={statusChangeHandler}
+            />
+          )}
         </div>
       );
     } else if (char.characterType === 'npc') {
@@ -83,7 +118,14 @@ const BattleTab: FC<BattleTabProps> = ({ fightArray, fightCharStatus, statusChan
             toggleState === index ? 'content  activeContent' : 'content'
           }
         >
-          {fightCharStatus&&<BattleCard npc={char} statusChange={statusChangeHandler} fightCharStatus={fightCharStatus} />}
+          {fightCharStatus && (
+            <BattleCard
+              roundCounter={roundCounter}
+              npc={char}
+              statusChange={statusChangeHandler}
+              fightCharStatus={fightCharStatus}
+            />
+          )}
         </div>
       );
     }

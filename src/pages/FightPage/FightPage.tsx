@@ -11,6 +11,7 @@ const FightPage: FC<FightPageProps> = ({
 }) => {
   const [fightArray, setFightArray] = useState<Array<any>>();
   const [fightCharStatus, setFightCharStatus] = useState<any>();
+  const [roundCounter, setRoundCounter] = useState<number>(1);
 
   const getStatBonus = (stat: number): number => {
     const statBonus = Math.floor((stat - 10) / 2);
@@ -18,15 +19,12 @@ const FightPage: FC<FightPageProps> = ({
   };
 
   useEffect(() => {
-    console.log(initiativeList);
-     
     if (initiativeList) {
       const partyArrayInitiative = partyArray.map((player) => {
         return {
           ...player,
           initiative:
-            initiativeList[player.id] +
-            getStatBonus(player.dexterity),
+            initiativeList[player.id] + getStatBonus(player.dexterity),
         };
       });
       const npcArrayInitiative = npcArray.map((npc) => {
@@ -35,7 +33,7 @@ const FightPage: FC<FightPageProps> = ({
           initiative: initiativeList[npc.id] + getStatBonus(npc.dexterity),
         };
       });
-      
+
       const fightArraySorted = [
         ...partyArrayInitiative,
         ...npcArrayInitiative,
@@ -47,7 +45,6 @@ const FightPage: FC<FightPageProps> = ({
         }
         return nextChar.initiative - prevChar.initiative;
       });
-      console.log(fightArraySorted);
       setFightArray(fightArraySorted);
     }
   }, [npcArray, partyArray, initiativeList]);
@@ -75,13 +72,12 @@ const FightPage: FC<FightPageProps> = ({
                 Restrained: false,
                 Stunned: false,
                 Unconscious: false,
-                Exhaustion: false,
-                ConcentratedOnSpell:false
+                Exhaustion: '',
+                ConcentratedOnSpell: false,
               },
             };
-          }
-          else{
-            return{...prevStatus};
+          } else {
+            return { ...prevStatus };
           }
         },
         {}
@@ -89,22 +85,50 @@ const FightPage: FC<FightPageProps> = ({
       setFightCharStatus(fightCharStatusCandidate);
     }
   }, [fightArray]);
-  
-  const statusChangeHandler = (event:React.ChangeEvent<HTMLInputElement>)=>{
+
+  const statusChangeHandler = (event: React.ChangeEvent<any>) => {
     const value = parseInt(event.target.value);
-    if(!isNaN(value)){
-    const {[event.target.id]:charStatus} = fightCharStatus;
-    const newStatus = {...charStatus, [event.target.name]:value}
-    
-    setFightCharStatus({...fightCharStatus, [event.target.id]:newStatus})
+    if (!isNaN(value)) {
+      const { [event.target.id]: charStatus } = fightCharStatus;
+      const newStatus = { ...charStatus, [event.target.name]: value };
+
+      setFightCharStatus({ ...fightCharStatus, [event.target.id]: newStatus });
+    } else if (event.target.type === 'checkbox') {
+      const { [event.target.id]: charStatus } = fightCharStatus;
+      const newStatus = {
+        ...charStatus,
+        [event.target.name]: event.target.checked,
+      };
+      setFightCharStatus({ ...fightCharStatus, [event.target.id]: newStatus });
     }
-    
-  }
+    else if (event.target.name==='Exhaustion'){
+      const { [event.target.id]: charStatus } = fightCharStatus;
+      const text = event.target.text === 'none'?"":event.target.text;
+      const newStatus = {
+        ...charStatus,
+        Exhaustion: text,
+      };
+      setFightCharStatus({ ...fightCharStatus, [event.target.id]: newStatus });
+    }
+  };
+  const changeRound = () => {
+    setRoundCounter((roundCounter) => ++roundCounter);
+  };
   return (
     <div>
-      <h2>Round:</h2>
-      <Link to={'/'} ><Button onClick={()=>{}} >End Fight</Button></Link>
-      {fightArray && <BattleTab fightArray={fightArray} fightCharStatus={fightCharStatus} statusChangeHandler={statusChangeHandler} />}
+      <h2>Round:{roundCounter}</h2>
+      <Link to={'/'}>
+        <Button onClick={() => {}}>End Fight</Button>
+      </Link>
+      {fightArray && (
+        <BattleTab
+          fightArray={fightArray}
+          fightCharStatus={fightCharStatus}
+          statusChangeHandler={statusChangeHandler}
+          changeRound={changeRound}
+          roundCounter={roundCounter}
+        />
+      )}
     </div>
   );
 };

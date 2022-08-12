@@ -101,7 +101,7 @@ const CharacterInfoCard: React.FC<CharacterInfoCardProps> = ({
               {passivePreception}
             </Card.Text>
             <Card.Text>Languages: {languages}</Card.Text>
-            <Card.Text>{discription}</Card.Text>
+            <Card.Text>Discription: {discription}</Card.Text>
           </Card.Body>
                   </Card>
       </div>

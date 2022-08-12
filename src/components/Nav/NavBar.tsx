@@ -1,5 +1,6 @@
 import React from 'react';
 import { Navbar, Container, Nav } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import './NavBar.css';
 
 const NavBar: React.FC = () => {
@@ -7,7 +8,9 @@ const NavBar: React.FC = () => {
     <div>
       <Navbar bg="primary" variant="dark">
         <Container>
-          <Navbar.Brand href="#home">Turn counter</Navbar.Brand>
+          <Link to={'/'}>
+            <Navbar.Brand href="#home">Turn counter</Navbar.Brand>
+          </Link>
           <Nav className="me-auto"></Nav>
         </Container>
       </Navbar>
