@@ -1,0 +1,17 @@
+.difficultyInfoContainer{
+    padding: 10px;
+    background-color: #4d5d6c;
+    align-self: flex-start;
+}
+
+.difficultyInfo{
+    display: flex;
+    justify-content:flex-start;
+    align-items: flex-start;
+}
+
+.difficultyText{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}

@@ -28,9 +28,9 @@ const CharacterInfoCard: React.FC<CharacterInfoCardProps> = ({
       discription,
       languages,
       passivePreception,
+      level
     } = playerCharacter;
 
-    
     return (
 
       <div key={index}>
@@ -40,6 +40,7 @@ const CharacterInfoCard: React.FC<CharacterInfoCardProps> = ({
             <h4>{playerName}</h4>
           </Card.Header>
           <Card.Body>
+            <Card.Text>Level: {level}</Card.Text>
             <Card.Text>Armor Class {armorClass} </Card.Text>
 
             <Card.Text>Max Hitoints {maxHitpoints}</Card.Text>

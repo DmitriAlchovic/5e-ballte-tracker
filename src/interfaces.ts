@@ -105,9 +105,10 @@ export interface Character {
   type?: string;
   url?: string;
   wisdom?: number;
-  xp?: number;
+  xp: number;
   characterType: 'npc';
   id: string;
+  isFriendly?:boolean;
 }
 
 export interface Action {
@@ -248,6 +249,7 @@ export interface PlayerCharacter {
   initiative?: any;
   characterType: 'playerCharacter';
   id: string;
+  level:number;
 }
 
 export interface Party {
@@ -279,6 +281,8 @@ export interface NpcInfoCardProps {
 export interface NpcListCardProps {
   npcArray: Character[];
   deleteHandler: Function;
+  hasSwitch?:boolean;
+  toggleFriendly:Function;
 }
 
 export interface FightPageProps {
@@ -388,4 +392,9 @@ export interface SpellInfo {
   school:MagicSchool;
   subclasses:Subcalsses[];
   url:string;
+}
+
+export interface DifficultyInfoProps {
+  currentParty:PlayerCharacter[];
+  npcList:Character[];
 }

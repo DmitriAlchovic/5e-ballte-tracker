@@ -33,7 +33,8 @@ const _DUMMY_CHARACTER: PlayerCharacter = {
   languages: '',
   discription: '',
   characterType: 'playerCharacter',
-  id:''
+  id:'',
+  level:0
 };
 const _DUMMY_PARTY: Party = { partyName: '', partyMembers: [] };
 const SelectTab: React.FC<SelectTabProps> = ({

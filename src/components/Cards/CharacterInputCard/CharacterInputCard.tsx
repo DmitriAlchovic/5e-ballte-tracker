@@ -21,7 +21,8 @@ const _DUMMY_CHARACTER: PlayerCharacter = {
   languages: '',
   discription: '',
   characterType: 'playerCharacter',
-  id:''
+  id:'',
+  level:0
 };
 
 const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
@@ -116,7 +117,23 @@ const CharacterInputCard: React.FC<CharacterInputCardProps> = ({
                 Please enter player name.
               </Form.Control.Feedback>
             </Form.Group>
-            <Row className='mb-3'>
+            <Row className='mb-4'>
+              <Form.Group as={Col} controlId="level">
+              <Form.Label>Level</Form.Label>
+              <InputGroup hasValidation>
+                <Form.Control
+                  className="charInput"
+                  type="number"
+                  required
+                  name="level"
+                  value={characterCandidate.level}
+                  onChange={handlerChange}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please enter character level.
+                </Form.Control.Feedback>
+              </InputGroup>
+            </Form.Group>
             <Form.Group as={Col} controlId="armorClass">
               <Form.Label>Armor Class</Form.Label>
               <InputGroup hasValidation>

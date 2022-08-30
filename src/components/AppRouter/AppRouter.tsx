@@ -19,7 +19,6 @@ const AppRouter = () => {
   const [charArray, setCharArray] = useState<PlayerCharacter[]>([]);
   const [npcArray, setNpcArray] = useState([]);
   const [initiativeList, setInitiativeList] = useState<InitiativeList>();
-  const [error, setError] = useState<Error>();
 
   const submitParty = (party: Party) => {
     setCharArray(party.partyMembers);
@@ -49,7 +48,7 @@ const AppRouter = () => {
           path="/"
         ></Route>
         <Route
-          element={<CreatePage submitNpc={submitNpc} />}
+          element={<CreatePage submitNpc={submitNpc} currentParty={charArray} />}
           path="/create/"
         ></Route>
         <Route
