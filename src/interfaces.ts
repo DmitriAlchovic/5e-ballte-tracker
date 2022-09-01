@@ -398,3 +398,9 @@ export interface DifficultyInfoProps {
   currentParty:PlayerCharacter[];
   npcList:Character[];
 }
+
+export interface ConditionsInfoProps {
+  id:string;
+  fightCharStatus:FightCharStatus;
+  statusChange:Function;
+}

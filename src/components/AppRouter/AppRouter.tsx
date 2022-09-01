@@ -16,12 +16,14 @@ import { nanoid } from 'nanoid';
 
 const AppRouter = () => {
   const navigate = useNavigate();
-  const [charArray, setCharArray] = useState<PlayerCharacter[]>([]);
+  const [currentParty, setCharArray] = useState<PlayerCharacter[]>([]);
+  const [currentPartyName, setCurrentPartyName] = useState<String>('');
   const [npcArray, setNpcArray] = useState([]);
   const [initiativeList, setInitiativeList] = useState<InitiativeList>();
 
   const submitParty = (party: Party) => {
     setCharArray(party.partyMembers);
+    setCurrentPartyName(party.partyName);
     navigate('/create/');
   };
 
@@ -34,7 +36,7 @@ const AppRouter = () => {
 
   const submitInitiative = (initiativeListCandidate: InitiativeList) => {
     setInitiativeList({ ...initiativeListCandidate });
-    navigate('/fight/');
+    navigate(`/fight/${currentPartyName}`);
   };
 
   return (
@@ -48,14 +50,14 @@ const AppRouter = () => {
           path="/"
         ></Route>
         <Route
-          element={<CreatePage submitNpc={submitNpc} currentParty={charArray} />}
+          element={<CreatePage submitNpc={submitNpc} currentParty={currentParty} />}
           path="/create/"
         ></Route>
         <Route
           element={
             <InitiativePage
               npcArray={npcArray}
-              characterArray={charArray}
+              characterArray={currentParty}
               submitInitiative={submitInitiative}
             />
           }
@@ -65,11 +67,11 @@ const AppRouter = () => {
           element={
             <FightPage
               npcArray={npcArray}
-              partyArray={charArray}
+              partyArray={currentParty}
               initiativeList={initiativeList}
             />
           }
-          path="/fight/"
+          path="/fight/:partyName"
         ></Route>
       </Routes>
       </div>

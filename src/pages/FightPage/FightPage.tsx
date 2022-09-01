@@ -1,8 +1,12 @@
 import React, { useEffect, useState, FC } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button } from 'react-bootstrap';
 import BattleTab from '../../components/Tabs/BattleTab';
 import { Character, FightPageProps, PlayerCharacter } from '../../interfaces';
 import { Link } from 'react-router-dom';
+import DifficultyInfo from '../../components/DifficultyInfo';
+import './FightPage.css';
+import { useStorage } from '../../hooks/storage.hook';
 
 const FightPage: FC<FightPageProps> = ({
   npcArray,
@@ -12,12 +16,16 @@ const FightPage: FC<FightPageProps> = ({
   const [fightArray, setFightArray] = useState<Array<any>>();
   const [fightCharStatus, setFightCharStatus] = useState<any>();
   const [roundCounter, setRoundCounter] = useState<number>(1);
+  const {partyName} = useParams();
+  
 
   const getStatBonus = (stat: number): number => {
     const statBonus = Math.floor((stat - 10) / 2);
     return statBonus;
   };
+  useEffect(()=>{
 
+  },[partyName])
   useEffect(() => {
     if (initiativeList) {
       const partyArrayInitiative = partyArray.map((player) => {
@@ -100,10 +108,9 @@ const FightPage: FC<FightPageProps> = ({
         [event.target.name]: event.target.checked,
       };
       setFightCharStatus({ ...fightCharStatus, [event.target.id]: newStatus });
-    }
-    else if (event.target.name==='Exhaustion'){
+    } else if (event.target.name === 'Exhaustion') {
       const { [event.target.id]: charStatus } = fightCharStatus;
-      const text = event.target.text === 'none'?"":event.target.text;
+      const text = event.target.text === 'none' ? '' : event.target.text;
       const newStatus = {
         ...charStatus,
         Exhaustion: text,
@@ -116,6 +123,9 @@ const FightPage: FC<FightPageProps> = ({
   };
   return (
     <div>
+      <div className='difficultyInfoInPage'>
+        <DifficultyInfo npcList={npcArray} currentParty={partyArray} />
+      </div>
       <h2>Round:{roundCounter}</h2>
       <Link to={'/'}>
         <Button onClick={() => {}}>End Fight</Button>
